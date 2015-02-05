@@ -1,4 +1,4 @@
-package com.pacovides.money.core.domain;
+package com.pacovides.money.model;
 
 import java.math.BigDecimal;
 import java.util.Currency;

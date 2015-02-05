@@ -1,4 +1,4 @@
-package com.pacovides.money.core.domain;
+package com.pacovides.money.model;
 
 import java.util.Date;
 import java.util.List;
