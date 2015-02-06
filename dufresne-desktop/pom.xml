@@ -11,4 +11,15 @@
   <artifactId>dufresne-desktop</artifactId>
   <name>Dufresne Desktop</name>
 
+  <dependencies>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.pacovides.money</groupId>
+  		<artifactId>dufresne-core</artifactId>
+  	</dependency>
+  </dependencies>
+  
 </project>
