@@ -27,6 +27,8 @@ public class SimpleLedgerService implements LedgerService {
 			throw new IllegalArgumentException("ledger is null");
 		}
 
+		// Checkout http://www.rgagnon.com/javadetails/java-0470.html
+
 		logger.info("saving ledger {} to output file {}", ledger.getName(), outputFile);
 		// TODO real impl.
 

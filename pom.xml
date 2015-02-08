@@ -42,6 +42,7 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- unit tests -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -54,6 +55,7 @@
 				<version>6.1.1</version>
 				<scope>test</scope>
 			</dependency>
+			<!-- logging -->
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
@@ -64,13 +66,18 @@
 				<artifactId>log4j-core</artifactId>
 				<version>${log4j.version}</version>
 			</dependency>
-
+			<!-- Used for string and other utils -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.3.2</version>
+			</dependency>
+			<!-- Internal dependenies -->
 			<dependency>
 				<groupId>com.pacovides.money</groupId>
 				<artifactId>dufresne-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
 		</dependencies>
 	</dependencyManagement>
 </project>

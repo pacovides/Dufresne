@@ -1,26 +1,39 @@
 package com.pacovides.money.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Ledger {
-	
-	private List<Transaction> transactionList;
-	
+
+	private List<Transaction> transactionList = new ArrayList<Transaction>();
+
 	private String name;
-	
+
 	private String description;
-	
+
 	private Date dateCreated;
-	
+
 	private Date lastModified;
 
 	public List<Transaction> getTransactionList() {
 		return transactionList;
 	}
 
+	/**
+	 * Sets a non-null transaction list
+	 * 
+	 * @param transactionList
+	 */
 	public void setTransactionList(List<Transaction> transactionList) {
-		this.transactionList = transactionList;
+		if (transactionList != null) {
+			// We ensure the List implementation remains the same
+			this.transactionList = new ArrayList<Transaction>(transactionList);
+		}
+	}
+
+	public void addTransaction(Transaction transaction) {
+		transactionList.add(transaction);
 	}
 
 	public String getName() {

@@ -1,6 +1,7 @@
 package com.pacovides.money.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +43,7 @@ public class Transaction {
 	 * or destiny account. The relationship between a label and a transaction is
 	 * many to many
 	 */
-	private List<String> transactionLabels;
+	private List<String> transactionLabels = new ArrayList<String>();
 
 	public String getDescription() {
 		return description;
