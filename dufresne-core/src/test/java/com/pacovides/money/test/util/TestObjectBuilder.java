@@ -17,6 +17,10 @@ import com.pacovides.money.model.Transaction;
  */
 public class TestObjectBuilder {
 
+	public static final String DEFAULT_LEDGER_NAME = "test Ledger";
+	public static final String DEFAULT_LEDGER_DESCRIPTION = "some ledger description";
+	public static final String DEFAULT_TRANSACTION_CURRENCY = "USD";
+
 	/**
 	 * Builds a ledger object for testing using the transactions that are passed
 	 * 
@@ -26,8 +30,8 @@ public class TestObjectBuilder {
 
 		Ledger ledger = new Ledger();
 		ledger.setDateCreated(new Date());
-		ledger.setName("test Ledger");
-		ledger.setDescription("ledger description");
+		ledger.setName(DEFAULT_LEDGER_NAME);
+		ledger.setDescription(DEFAULT_LEDGER_DESCRIPTION);
 		ledger.setTransactionList(Arrays.asList(transactions));
 
 		return ledger;
@@ -41,7 +45,7 @@ public class TestObjectBuilder {
 	 * @return
 	 */
 	public static Transaction buildTransaction(BigDecimal amount) {
-		return buildTransaction(new Date(), amount, Currency.getInstance("USD"));
+		return buildTransaction(new Date(), amount, Currency.getInstance(DEFAULT_TRANSACTION_CURRENCY));
 	}
 
 	/**
