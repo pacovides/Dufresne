@@ -45,6 +45,10 @@ public class Transaction {
 	 */
 	private List<String> transactionLabels = new ArrayList<String>();
 
+	private Account accountTo;
+
+	private Account accountFrom;
+
 	public String getDescription() {
 		return description;
 	}
@@ -91,6 +95,22 @@ public class Transaction {
 
 	public void setTransactionLabels(List<String> transactionLabels) {
 		this.transactionLabels = transactionLabels;
+	}
+
+	public Account getAccountTo() {
+		return accountTo;
+	}
+
+	public void setAccountTo(Account accountTo) {
+		this.accountTo = accountTo;
+	}
+
+	public Account getAccountFrom() {
+		return accountFrom;
+	}
+
+	public void setAccountFrom(Account accountFrom) {
+		this.accountFrom = accountFrom;
 	}
 
 }

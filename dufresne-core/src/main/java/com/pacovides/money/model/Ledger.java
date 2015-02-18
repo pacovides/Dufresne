@@ -8,6 +8,8 @@ public class Ledger {
 
 	private List<Transaction> transactionList = new ArrayList<Transaction>();
 
+	private List<Account> accountList = new ArrayList<Account>();
+
 	private String name;
 
 	private String description;
@@ -66,6 +68,31 @@ public class Ledger {
 
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
+	}
+
+	public List<Account> getAccountList() {
+		return accountList;
+	}
+
+	/**
+	 * Sets a non-null account list
+	 * 
+	 * @param accountList
+	 */
+	public void setAccountList(List<Account> accountList) {
+		if (accountList != null) {
+			// We ensure the List implementation remains the same
+			this.accountList = new ArrayList<Account>(accountList);
+		}
+	}
+
+	/**
+	 * Adds a single account to the account list
+	 * 
+	 * @param account
+	 */
+	public void addAccount(Account account) {
+		accountList.add(account);
 	}
 
 }

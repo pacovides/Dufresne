@@ -78,6 +78,13 @@
 				<version>2.4</version>
 			</dependency>
 
+			<!-- XML serialization/deserialization -->
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>1.4.7</version>
+			</dependency>
+
 			<!-- Internal dependenies -->
 			<dependency>
 				<groupId>com.pacovides.money</groupId>

@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.test.util.ResourceFilesUtil;
 import com.pacovides.money.test.util.TestObjectBuilder;
@@ -61,14 +62,40 @@ public class XMLLedgerStorageTest {
 		File ledgerFile = ResourceFilesUtil.getResourceFile(TEMP_OUTPUT_DIR + "/simple.xml");
 		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
 		Ledger ledger = TestObjectBuilder.buildLedger();
-		ledger.addTransaction(TestObjectBuilder.buildTransaction(new BigDecimal(12)));
-		ledger.addTransaction(TestObjectBuilder.buildTransaction(new BigDecimal(114)));
+		Account accountA = ledger.getAccountList().get(0);
+		Account accountB = ledger.getAccountList().get(1);
+		Account accountC = ledger.getAccountList().get(2);
+		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountA, accountB, new BigDecimal(12)));
+		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountA, accountC, new BigDecimal(114)));
 		xmlLedgerStorage.saveLedger(ledger, ledgerFile.getPath());
 		// Now we check everything was saved correctly
 		String storedInfo = ResourceFilesUtil.getResourceFileAsString(ledgerFile);
 		Assert.assertNotNull(storedInfo);
 		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.DEFAULT_LEDGER_NAME));
-		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.DEFAULT_TRANSACTION_CURRENCY));
+		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.DEFAULT_TRANSACTION_CURRENCY.getCurrencyCode()));
+		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.ACCOUNT_A_NAME));
+
+	}
+
+	/**
+	 * We are not expecting a null filename by design. Make sure we fail
+	 * gracefully.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSaveNullFile() {
+		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
+		Ledger ledger = TestObjectBuilder.buildLedger();
+		xmlLedgerStorage.saveLedger(ledger, null);
+	}
+
+	/**
+	 * We are not expecting a null ledger by design. Make sure we fail
+	 * gracefully.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSaveNullLedger() {
+		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
+		xmlLedgerStorage.saveLedger(null, "some filename");
 	}
 
 }

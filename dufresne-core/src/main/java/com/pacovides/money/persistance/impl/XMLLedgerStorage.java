@@ -1,9 +1,11 @@
 package com.pacovides.money.persistance.impl;
 
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,11 +13,10 @@ import org.apache.logging.log4j.Logger;
 import com.pacovides.money.exception.DufresneIOException;
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.persistance.LedgerStorage;
+import com.thoughtworks.xstream.XStream;
 
 /**
- * Uses java.beans.XMLEncoder to read write xml files
- * 
- * TODO consider woodstox as an alternative
+ * Uses Xstream to read write xml files
  * 
  * @author Francisco
  *
@@ -23,6 +24,11 @@ import com.pacovides.money.persistance.LedgerStorage;
 public class XMLLedgerStorage implements LedgerStorage {
 
 	private static final Logger logger = LogManager.getLogger(XMLLedgerStorage.class);
+
+	// We force write to UTF8 to avoid encoding issues
+	private final static Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
+
+	private final XStream xstream = new XStream();
 
 	@Override
 	public void saveLedger(Ledger ledger, String outputFileName) {
@@ -33,33 +39,43 @@ public class XMLLedgerStorage implements LedgerStorage {
 		if (StringUtils.isEmpty(outputFileName)) {
 			throw new IllegalArgumentException("outputFileName is null");
 		}
-		/*
-		 * File file = new File(outputFileName); if (file.isDirectory() ||
-		 * !file.getParentFile().exists()) { throw new
-		 * DufresneIOException("The specified file " + outputFileName +
-		 * " does not exists or is invalid"); }
-		 */
+
 		writeToXML(ledger, outputFileName);
 
 	}
 
 	private void writeToXML(Ledger ledger, String filename) {
-		// Try with resources avoids closing the opened resources.
-		try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filename)))) {
-			encoder.writeObject(ledger);
-			encoder.close();
-		} catch (Exception e) {
-			String message = "error while saving file " + filename;
-			logger.error(message, e);
-			throw new DufresneIOException(message, e);
-		}
+
+		String xml = xstream.toXML(ledger);
+		logger.debug("Saving ledger to " + filename);
+		logger.trace(xml);
+
+		File outputFile = new File(filename);
+		writeStringToFile(xml, outputFile);
 
 	}
 
+	private void writeStringToFile(String content, File file) {
+		try {
+			FileUtils.writeStringToFile(file, content, DEFAULT_ENCODING);
+		} catch (IOException e) {
+			String message = "error while saving file " + file.getName();
+			logger.error(message, e);
+			throw new DufresneIOException(message, e);
+		}
+	}
+
 	@Override
-	public Ledger openLedger(String file) {
-		// TODO Auto-generated method stub
-		return null;
+	public Ledger openLedger(String fileName) {
+		try {
+			File file = new File(fileName);
+			String ledgerXml = FileUtils.readFileToString(file);
+			return (Ledger) xstream.fromXML(ledgerXml);
+		} catch (IOException e) {
+			String message = "error while reading from file " + fileName;
+			logger.error(message, e);
+			throw new DufresneIOException(message, e);
+		}
 	}
 
 }

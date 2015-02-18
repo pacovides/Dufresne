@@ -7,6 +7,10 @@ import java.util.Map;
 public class Account {
 	
 	private AccountType type;
+
+	/**
+	 * The account name should be unique within a ledger.
+	 */
 	private String name;
 	private Account parentAccount;
 	private Currency defaultCurrency;
