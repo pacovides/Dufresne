@@ -6,10 +6,6 @@ import java.util.List;
 
 public class Ledger {
 
-	private List<Transaction> transactionList = new ArrayList<Transaction>();
-
-	private List<Account> accountList = new ArrayList<Account>();
-
 	private String name;
 
 	private String description;
@@ -18,25 +14,9 @@ public class Ledger {
 
 	private Date lastModified;
 
-	public List<Transaction> getTransactionList() {
-		return transactionList;
-	}
+	private List<Account> accountList = new ArrayList<Account>();
 
-	/**
-	 * Sets a non-null transaction list
-	 * 
-	 * @param transactionList
-	 */
-	public void setTransactionList(List<Transaction> transactionList) {
-		if (transactionList != null) {
-			// We ensure the List implementation remains the same
-			this.transactionList = new ArrayList<Transaction>(transactionList);
-		}
-	}
-
-	public void addTransaction(Transaction transaction) {
-		transactionList.add(transaction);
-	}
+	private List<Transaction> transactionList = new ArrayList<Transaction>();
 
 	public String getName() {
 		return name;
@@ -93,6 +73,26 @@ public class Ledger {
 	 */
 	public void addAccount(Account account) {
 		accountList.add(account);
+	}
+
+	public List<Transaction> getTransactionList() {
+		return transactionList;
+	}
+
+	/**
+	 * Sets a non-null transaction list
+	 * 
+	 * @param transactionList
+	 */
+	public void setTransactionList(List<Transaction> transactionList) {
+		if (transactionList != null) {
+			// We ensure the List implementation remains the same
+			this.transactionList = new ArrayList<Transaction>(transactionList);
+		}
+	}
+
+	public void addTransaction(Transaction transaction) {
+		transactionList.add(transaction);
 	}
 
 }

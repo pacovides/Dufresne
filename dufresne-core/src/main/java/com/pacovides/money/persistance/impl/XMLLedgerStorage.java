@@ -11,7 +11,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.pacovides.money.exception.DufresneIOException;
+import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Ledger;
+import com.pacovides.money.model.Transaction;
 import com.pacovides.money.persistance.LedgerStorage;
 import com.thoughtworks.xstream.XStream;
 
@@ -29,6 +31,16 @@ public class XMLLedgerStorage implements LedgerStorage {
 	private final static Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
 
 	private final XStream xstream = new XStream();
+
+	public XMLLedgerStorage() {
+		// We add some nicer aliases for readability
+		xstream.alias("ledger", Ledger.class);
+		xstream.alias("account", Account.class);
+		xstream.alias("transaction", Transaction.class);
+
+		// We use id references that result in more human-readable output
+		xstream.setMode(XStream.ID_REFERENCES);
+	}
 
 	@Override
 	public void saveLedger(Ledger ledger, String outputFileName) {
