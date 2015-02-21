@@ -3,6 +3,8 @@ package com.pacovides.money.persistance.impl;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -16,6 +18,7 @@ import com.pacovides.money.test.util.TestObjectBuilder;
 
 public class XMLLedgerStorageTest {
 
+	private static final String SAMPLE_LEDGER_SIMPLE_XML = "sample/ledger-simple.xml";
 	// Temp directory used to store test output
 	private static final String TEMP_OUTPUT_DIR = "XMLLedgerStorageTest-tmp";
 
@@ -96,6 +99,28 @@ public class XMLLedgerStorageTest {
 	public void testSaveNullLedger() {
 		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
 		xmlLedgerStorage.saveLedger(null, "some filename");
+	}
+
+	@Test
+	public void testOpenSimpleLedger() {
+
+		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
+		File simpleLedgerFile = ResourceFilesUtil.getResourceFile(SAMPLE_LEDGER_SIMPLE_XML);
+		Ledger simpleLedger = xmlLedgerStorage.openLedger(simpleLedgerFile.getPath());
+
+		// We make some validations relying on the known data
+		Assert.assertNotNull(simpleLedger);
+		Assert.assertNotNull(simpleLedger.getAccountList());
+		Assert.assertEquals(3, simpleLedger.getAccountList().size());
+
+		Assert.assertNotNull(simpleLedger.getTransactionList());
+		Assert.assertEquals(2, simpleLedger.getTransactionList().size());
+		Calendar dateCreated = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		dateCreated.setTime(simpleLedger.getDateCreated());
+		Assert.assertEquals(Calendar.FEBRUARY, dateCreated.get(Calendar.MONTH));
+		Assert.assertEquals(21, dateCreated.get(Calendar.DAY_OF_MONTH));
+		Assert.assertEquals(2015, dateCreated.get(Calendar.YEAR));
+
 	}
 
 }

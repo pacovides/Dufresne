@@ -1,0 +1,90 @@
+<ledger id="1">
+  <name>test ledger</name>
+  <description>some ledger description</description>
+  <dateCreated id="2">2015-02-21 06:12:57.569 UTC</dateCreated>
+  <accountList id="3">
+    <account id="4">
+      <type>ASSET</type>
+      <name>accountA</name>
+      <defaultCurrency>USD</defaultCurrency>
+      <description>a testing account</description>
+      <accountProperties id="5">
+        <entry>
+          <string>secretQuestion</string>
+          <string>who cares?</string>
+        </entry>
+        <entry>
+          <string>accountNumber</string>
+          <string>123456</string>
+        </entry>
+      </accountProperties>
+      <accountLabels class="singleton-list" id="6">
+        <string>testAccountLabel</string>
+      </accountLabels>
+    </account>
+    <account id="7">
+      <type>ASSET</type>
+      <name>accountB</name>
+      <defaultCurrency>USD</defaultCurrency>
+      <description>a testing account</description>
+      <accountProperties id="8">
+        <entry>
+          <string>secretQuestion</string>
+          <string>who cares?</string>
+        </entry>
+        <entry>
+          <string>accountNumber</string>
+          <string>123456</string>
+        </entry>
+      </accountProperties>
+      <accountLabels class="singleton-list" id="9">
+        <string>testAccountLabel</string>
+      </accountLabels>
+    </account>
+    <account id="10">
+      <type>ASSET</type>
+      <name>accountC</name>
+      <defaultCurrency>USD</defaultCurrency>
+      <description>a testing account</description>
+      <accountProperties id="11">
+        <entry>
+          <string>secretQuestion</string>
+          <string>who cares?</string>
+        </entry>
+        <entry>
+          <string>accountNumber</string>
+          <string>123456</string>
+        </entry>
+      </accountProperties>
+      <accountLabels class="singleton-list" id="12">
+        <string>testAccountLabel</string>
+      </accountLabels>
+    </account>
+  </accountList>
+  <transactionList id="13">
+    <transaction id="14">
+      <description>test transaction</description>
+      <notes>sample notes</notes>
+      <date id="15">2015-02-21 06:12:57.569 UTC</date>
+      <amount>12</amount>
+      <currency>USD</currency>
+      <transactionLabels class="singleton-list" id="16">
+        <string>testTransactionLabel</string>
+      </transactionLabels>
+      <accountTo reference="7"/>
+      <accountFrom reference="4"/>
+    </transaction>
+    <transaction id="17">
+      <description>test transaction</description>
+      <notes>sample notes</notes>
+      <date id="18">2015-02-21 06:12:57.569 UTC</date>
+      <amount>114</amount>
+      <currency>USD</currency>
+      <transactionLabels class="singleton-list" id="19">
+        <string>testTransactionLabel</string>
+      </transactionLabels>
+      <accountTo reference="10"/>
+      <accountFrom reference="4"/>
+    </transaction>
+  </transactionList>
+</ledger>
