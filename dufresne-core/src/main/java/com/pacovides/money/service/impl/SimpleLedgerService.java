@@ -4,10 +4,12 @@
 package com.pacovides.money.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.persistance.LedgerStorage;
 import com.pacovides.money.service.LedgerService;
@@ -38,22 +40,16 @@ public class SimpleLedgerService implements LedgerService {
 	 * @see com.pacovides.money.service.LedgerService#saveLedger(com.pacovides.money.model.Ledger, java.lang.String)
 	 */
 	@Override
-	public void saveLedger(Ledger ledger, String outputFile) {
-		if (ledger == null) {
-			logger.error("Attempted to save null ledger!");
+	public void saveLedger(String outputFile) {
+		if (activeLedger == null) {
+			logger.error("Attempted to save empty ledger! You should call createNewLedger(..) first");
 			throw new IllegalArgumentException("ledger is null");
 		}
 
-		logger.info("saving ledger {} to output file {}", ledger.getName(), outputFile);
-		ledger.setLastModified(new Date());
+		logger.info("saving ledger {} to output file {}", activeLedger.getName(), outputFile);
+		activeLedger.setLastModified(new Date());
 
-		// If creation date is not yet set this must be a new ledger, set
-		// creation date to now
-		if (ledger.getDateCreated() == null) {
-			ledger.setDateCreated(new Date());
-		}
-
-		ledgerStorage.saveLedger(ledger, outputFile);
+		ledgerStorage.saveLedger(activeLedger, outputFile);
 
 	}
 
@@ -61,7 +57,7 @@ public class SimpleLedgerService implements LedgerService {
 	 * @see com.pacovides.money.service.LedgerService#openLedger(java.lang.String)
 	 */
 	@Override
-	public Ledger openLedger(String file) {
+	public void openLedger(String file) {
 		logger.info("reading ledger from {} ", file);
 		Ledger ledgerRead = ledgerStorage.openLedger(file);
 		if (ledgerRead != null) {
@@ -70,7 +66,23 @@ public class SimpleLedgerService implements LedgerService {
 			logger.warn("Ledger could not be read.");
 		}
 
-		return activeLedger;
+	}
+
+	@Override
+	public void createNewLedger(String ledgerName, String ledgerDescription) {
+		this.createNewLedger(ledgerName, ledgerDescription, null);
+
+	}
+
+	@Override
+	public void createNewLedger(String ledgerName, String ledgerDescription, List<Account> initialAccounts) {
+		logger.info("creating new ledger with name {} ", ledgerName);
+		activeLedger = new Ledger();
+		activeLedger.setName(ledgerName);
+		activeLedger.setDescription(ledgerDescription);
+		activeLedger.setAccountList(initialAccounts);
+		activeLedger.setDateCreated(new Date());
+
 	}
 
 }

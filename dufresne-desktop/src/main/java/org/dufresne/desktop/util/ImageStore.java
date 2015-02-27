@@ -1,4 +1,4 @@
-package org.dufresne.desktop;
+package org.dufresne.desktop.util;
 
 import java.awt.Image;
 

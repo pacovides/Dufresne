@@ -1,20 +1,22 @@
-package org.dufresne.desktop;
+package org.dufresne.desktop.gui;
 
-import com.pacovides.money.model.Ledger;
 import com.pacovides.money.persistance.LedgerStorage;
 import com.pacovides.money.persistance.impl.XMLLedgerStorage;
 import com.pacovides.money.service.LedgerService;
 import com.pacovides.money.service.impl.SimpleLedgerService;
 
-public class DufresneCmd {
+
+public class DufresneGUI {
 
 	public static void main(String[] args) {
+
+		// Service initialization
 		LedgerStorage ledgerStorage = new XMLLedgerStorage();
 		LedgerService ledgerService = new SimpleLedgerService(ledgerStorage);
-		Ledger ledger = new Ledger();
-		ledger.setName("myLedger");
-		ledgerService.createNewLedger("myLedger", "my ledger's description");
-		ledgerService.saveLedger("myFile");
+
+		// Graphical User Interface initialization
+		MainWindow mainWindow = new MainWindow(ledgerService);
+		mainWindow.setVisible(true);
 
 	}
 
