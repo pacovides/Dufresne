@@ -1,4 +1,4 @@
-package org.dufresne.desktop.gui;
+package org.dufresne.pc.app.gui;
 
 /**
  * Supported views in the Dufresne GUI

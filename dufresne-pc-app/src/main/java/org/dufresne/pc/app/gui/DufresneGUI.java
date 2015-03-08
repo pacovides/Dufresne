@@ -1,4 +1,4 @@
-package org.dufresne.desktop.gui;
+package org.dufresne.pc.app.gui;
 
 import com.pacovides.money.persistance.LedgerStorage;
 import com.pacovides.money.persistance.impl.XMLLedgerStorage;

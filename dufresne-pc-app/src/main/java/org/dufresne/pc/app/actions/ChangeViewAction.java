@@ -1,4 +1,4 @@
-package org.dufresne.desktop.actions;
+package org.dufresne.pc.app.actions;
 
 import java.awt.event.ActionEvent;
 

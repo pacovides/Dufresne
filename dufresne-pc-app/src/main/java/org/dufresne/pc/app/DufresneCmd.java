@@ -1,4 +1,4 @@
-package org.dufresne.desktop;
+package org.dufresne.pc.app;
 
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.persistance.LedgerStorage;

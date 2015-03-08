@@ -1,4 +1,4 @@
-package org.dufresne.desktop.gui;
+package org.dufresne.pc.app.gui;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.dufresne.desktop.gui;
+package org.dufresne.pc.app.gui;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;

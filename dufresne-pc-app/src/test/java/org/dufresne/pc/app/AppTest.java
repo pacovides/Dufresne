@@ -1,4 +1,4 @@
-package org.dufresne.desktop;
+package org.dufresne.pc.app;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

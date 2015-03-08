@@ -1,4 +1,4 @@
-package org.dufresne.desktop.actions;
+package org.dufresne.pc.app.actions;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 
-import org.dufresne.desktop.gui.LedgerFileObserver;
+import org.dufresne.pc.app.gui.LedgerFileObserver;
 
 import com.pacovides.money.service.LedgerService;
 

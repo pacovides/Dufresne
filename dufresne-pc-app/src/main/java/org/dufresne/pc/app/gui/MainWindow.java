@@ -1,4 +1,4 @@
-package org.dufresne.desktop.gui;
+package org.dufresne.pc.app.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,9 +19,9 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
-import org.dufresne.desktop.actions.OpenLedgerAction;
-import org.dufresne.desktop.actions.SaveLedgerAction;
-import org.dufresne.desktop.util.ImageStore;
+import org.dufresne.pc.app.actions.OpenLedgerAction;
+import org.dufresne.pc.app.actions.SaveLedgerAction;
+import org.dufresne.pc.app.util.ImageStore;
 
 import com.pacovides.money.service.LedgerService;
 

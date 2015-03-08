@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>dufresne-pc-app</artifactId>
-	<name>Dufresne Desktop</name>
+	<name>Dufresne PC Application</name>
 
 	<dependencies>
 		<dependency>
