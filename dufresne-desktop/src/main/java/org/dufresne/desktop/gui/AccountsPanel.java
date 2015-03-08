@@ -7,34 +7,49 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import com.pacovides.money.model.Account;
+import com.pacovides.money.model.Ledger;
 
-public class AccountsWorkspace extends JPanel {
+public class AccountsPanel extends JPanel implements LedgerFileObserver {
+
+	private JTree accountsTree;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3576774609211994941L;
 
-	public AccountsWorkspace() {
+	public AccountsPanel() {
 		super(new BorderLayout());
-		// TODO real impl
-		List<Account> mainAccounts = getMainAccounts();
-
-		Account rootAccount = new Account("ALL");
-		rootAccount.addSubaccounts(mainAccounts);
-		AccountTreeNode rootNode = new AccountTreeNode(rootAccount);
 
 		// Create a tree that allows one selection at a time.
-		JTree tree = new JTree(rootNode);
-		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		accountsTree = new JTree();
+		accountsTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		accountsTree.setRootVisible(false);
+		accountsTree.setShowsRootHandles(true);
 
 		// Create the scroll pane and add the tree to it.
-		JScrollPane treeView = new JScrollPane(tree);
+		JScrollPane treeView = new JScrollPane(accountsTree);
+
 		this.add(treeView);
 
+		List<Account> mainAccounts = getMainAccounts();
+
+		setAccounts(mainAccounts);
+
+	}
+
+	private void setAccounts(List<Account> accounts) {
+		Account rootAccount = new Account("ALL");
+		rootAccount.addSubaccounts(accounts);
+		AccountTreeNode rootNode = new AccountTreeNode(rootAccount);
+		TreeModel model = new DefaultTreeModel(rootNode);
+		accountsTree.setModel(model);
+		accountsTree.repaint();
 	}
 
 	// Mock impl
@@ -63,6 +78,12 @@ public class AccountsWorkspace extends JPanel {
 		income.addSubaccount(empanadaSales);
 		mainAccounts.add(income);
 		return mainAccounts;
+	}
+
+	@Override
+	public void newLedgerFile(Ledger ledger) {
+		this.setAccounts(ledger.getAccountList());
+
 	}
 
 }

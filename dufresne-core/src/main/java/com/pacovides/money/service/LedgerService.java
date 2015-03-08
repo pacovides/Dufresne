@@ -3,9 +3,12 @@ package com.pacovides.money.service;
 import java.util.List;
 
 import com.pacovides.money.model.Account;
+import com.pacovides.money.model.Ledger;
+import com.pacovides.money.model.Transaction;
+import com.pacovides.money.model.TransactionFilter;
 
 public interface LedgerService {
-	
+
 	/**
 	 * Saves the active ledger to the specified output file
 	 * 
@@ -38,5 +41,23 @@ public interface LedgerService {
 	 * @param ledgerName
 	 */
 	void createNewLedger(String ledgerName, String ledgerDescription, List<Account> initialAccounts);
+
+	/**
+	 * Basic getter, returns the complete active ledger. It is discouraged to
+	 * operate on it. Instead use the service to modify.
+	 * 
+	 * @return
+	 */
+	Ledger getLedger();
+
+	/**
+	 * Given a particular filter it returns the transactions passed.
+	 * 
+	 * @param filter
+	 * @return
+	 */
+	List<Transaction> getFilteredTransactions(TransactionFilter filter);
+
+
 
 }

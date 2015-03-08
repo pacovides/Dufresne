@@ -1,7 +1,6 @@
 package org.dufresne.desktop.gui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -10,16 +9,17 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+import org.dufresne.desktop.actions.OpenLedgerAction;
 import org.dufresne.desktop.actions.SaveLedgerAction;
 import org.dufresne.desktop.util.ImageStore;
 
@@ -34,13 +34,19 @@ public class MainWindow extends JFrame implements ItemListener {
 
 	private LedgerService ledgerService;
 
-	// Panels
-	private JPanel workspacePanel;
+	// Workspaces
+	private MainWorkspace mainWorkspace;
 
 	private TransactionsWorkspace transactionsWorkspace;
 
-	private AccountsWorkspace accountsWorkspace;
+	private AccountsPanel accountsPanel;
 
+	// Toolbars
+	private MainToolbar mainToolbar;
+
+	// Actions
+	private OpenLedgerAction openLedgerAction;
+	private SaveLedgerAction saveLedgerAction;
 
 	public MainWindow(LedgerService ledgerService) {
 		this.ledgerService = ledgerService;
@@ -62,10 +68,11 @@ public class MainWindow extends JFrame implements ItemListener {
 		JMenuItem newLedger = new JMenuItem("New Ledger...");
 		fileMenu.add(newLedger);
 
-		JMenuItem openLedger = new JMenuItem("Open Ledger...");
+		openLedgerAction = new OpenLedgerAction(ledgerService);
+		JMenuItem openLedger = new JMenuItem(openLedgerAction);
 		fileMenu.add(openLedger);
 
-		SaveLedgerAction saveLedgerAction = new SaveLedgerAction(ledgerService);
+		saveLedgerAction = new SaveLedgerAction(ledgerService);
 		JMenuItem saveLedger = new JMenuItem(saveLedgerAction);
 		fileMenu.add(saveLedger);
 
@@ -78,41 +85,42 @@ public class MainWindow extends JFrame implements ItemListener {
 
 		// Our main panel is a simple BorderLayout
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		JPanel toolbar = createToolbar();
-		// Create the workspace and save it in the member variable
-		createWorkspace();
+
+		// The toolbar holder has a the view selector and a dynamic toolbar
+		JPanel toolbarHolder = new JPanel(new BorderLayout());
+		mainToolbar = new MainToolbar();
+
+		// Creates the accounts left panel
+		accountsPanel = new AccountsPanel();
+		openLedgerAction.addObserver(accountsPanel);
+
+		// Init workspace visual components
+		transactionsWorkspace = new TransactionsWorkspace();
+
+		// main workspace will contain the other workspaces
+		mainWorkspace = new MainWorkspace();
+		mainWorkspace.addView(WorkspaceView.ACCOUNT_VIEW, new JPanel());
+		mainWorkspace.addView(WorkspaceView.TRANSACTION_VIEW, transactionsWorkspace);
+
+		ViewSelector viewSelector = new ViewSelector();
+		viewSelector.addObserver(mainWorkspace);
+		viewSelector.addObserver(mainToolbar);
+
+		toolbarHolder.add(mainToolbar, BorderLayout.CENTER);
+		toolbarHolder.add(viewSelector, BorderLayout.LINE_END);
+
+		// Create a split pane with the two scroll panes in it.
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, accountsPanel, mainWorkspace);
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setDividerLocation(150);
+
 		JPanel statusBar = createStatusBar();
 
-		mainPanel.add(toolbar, BorderLayout.PAGE_START);
-		mainPanel.add(workspacePanel, BorderLayout.CENTER);
+		mainPanel.add(toolbarHolder, BorderLayout.PAGE_START);
+		mainPanel.add(splitPane, BorderLayout.CENTER);
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
 
 		return mainPanel;
-	}
-
-	private JPanel createToolbar() {
-		// The toolbar holder has a the view selector and a dynamic toolbar
-		JPanel toolbarHolder = new JPanel(new BorderLayout());
-		JPanel dynamicToolbar = new JPanel(new BorderLayout());
-
-		JComboBox<String> viewSelector = new JComboBox<String>();
-		viewSelector.addItem(WorkspaceView.ACCOUNT_VIEW.getViewname());
-		viewSelector.addItem(WorkspaceView.TRANSACTION_VIEW.getViewname());
-		viewSelector.addItemListener(this);
-		viewSelector.setEditable(false);
-
-		toolbarHolder.add(dynamicToolbar, BorderLayout.CENTER);
-		toolbarHolder.add(viewSelector, BorderLayout.LINE_END);
-
-		return toolbarHolder;
-	}
-
-	private void createWorkspace() {
-		workspacePanel = new JPanel(new CardLayout());
-		transactionsWorkspace = new TransactionsWorkspace();
-		accountsWorkspace = new AccountsWorkspace();
-		workspacePanel.add(accountsWorkspace, WorkspaceView.ACCOUNT_VIEW.getViewname());
-		workspacePanel.add(transactionsWorkspace, WorkspaceView.TRANSACTION_VIEW.getViewname());
 	}
 
 	private JPanel createStatusBar() {
@@ -147,8 +155,7 @@ public class MainWindow extends JFrame implements ItemListener {
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		CardLayout cl = (CardLayout) (workspacePanel.getLayout());
-		cl.show(workspacePanel, (String) e.getItem());
+		mainWorkspace.viewSelected((WorkspaceView) e.getItem());
 	}
 
 }

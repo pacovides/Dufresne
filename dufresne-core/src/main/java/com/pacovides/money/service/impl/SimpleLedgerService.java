@@ -3,6 +3,7 @@
  */
 package com.pacovides.money.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Ledger;
+import com.pacovides.money.model.Transaction;
+import com.pacovides.money.model.TransactionFilter;
 import com.pacovides.money.persistance.LedgerStorage;
 import com.pacovides.money.service.LedgerService;
 
@@ -20,11 +23,15 @@ import com.pacovides.money.service.LedgerService;
  */
 public class SimpleLedgerService implements LedgerService {
 
+
 	private static final Logger logger = LogManager.getLogger(SimpleLedgerService.class);
+
+	// A common message when trying to operate on an empty ledger
+	private static final String MSG_EMPTY_LEDGER = "Attempted to operate on an empty ledger! You should create or open a ledger first";
 
 	private LedgerStorage ledgerStorage;
 
-	private Ledger activeLedger;
+	private Ledger activeLedger = null;
 
 	/**
 	 * The simple ledger service needs a ledger storage to persist data
@@ -33,17 +40,20 @@ public class SimpleLedgerService implements LedgerService {
 	 */
 	public SimpleLedgerService(LedgerStorage ledgerStorage) {
 		this.ledgerStorage = ledgerStorage;
-		this.activeLedger = new Ledger();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pacovides.money.service.LedgerService#saveLedger(com.pacovides.money.model.Ledger, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pacovides.money.service.LedgerService#saveLedger(com.pacovides.money
+	 * .model.Ledger, java.lang.String)
 	 */
 	@Override
 	public void saveLedger(String outputFile) {
 		if (activeLedger == null) {
-			logger.error("Attempted to save empty ledger! You should call createNewLedger(..) first");
-			throw new IllegalArgumentException("ledger is null");
+			logger.warn(MSG_EMPTY_LEDGER);
+			return;
 		}
 
 		logger.info("saving ledger {} to output file {}", activeLedger.getName(), outputFile);
@@ -53,8 +63,11 @@ public class SimpleLedgerService implements LedgerService {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pacovides.money.service.LedgerService#openLedger(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pacovides.money.service.LedgerService#openLedger(java.lang.String)
 	 */
 	@Override
 	public void openLedger(String file) {
@@ -83,6 +96,22 @@ public class SimpleLedgerService implements LedgerService {
 		activeLedger.setAccountList(initialAccounts);
 		activeLedger.setDateCreated(new Date());
 
+	}
+
+	@Override
+	public Ledger getLedger() {
+		return activeLedger;
+	}
+
+	@Override
+	public List<Transaction> getFilteredTransactions(TransactionFilter filter) {
+		if (activeLedger == null) {
+			logger.warn(MSG_EMPTY_LEDGER);
+			return new ArrayList<Transaction>();
+		}
+
+		// TODO actually filter
+		return activeLedger.getTransactionList();
 	}
 
 }

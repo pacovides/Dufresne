@@ -19,4 +19,9 @@ public enum WorkspaceView {
 		return viewname;
 	}
 
+	@Override
+	public String toString() {
+		return viewname;
+	}
+
 }
