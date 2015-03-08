@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>dufresne-desktop</artifactId>
+	<artifactId>dufresne-pc-app</artifactId>
 	<name>Dufresne Desktop</name>
 
 	<dependencies>

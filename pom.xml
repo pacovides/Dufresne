@@ -18,7 +18,7 @@
 
 	<modules>
 		<module>dufresne-core</module>
-		<module>dufresne-desktop</module>
+		<module>dufresne-pc-app</module>
 	</modules>
 
 	<build>
