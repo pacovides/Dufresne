@@ -18,8 +18,9 @@ public class ViewSelector extends JComboBox<WorkspaceView> implements ItemListen
 
 	public ViewSelector() {
 		super();
-		this.addItem(WorkspaceView.ACCOUNT_VIEW);
-		this.addItem(WorkspaceView.TRANSACTION_VIEW);
+		for (WorkspaceView workspaceView : WorkspaceView.values()) {
+			this.addItem(workspaceView);
+		}
 		this.addItemListener(this);
 		this.setEditable(false);
 

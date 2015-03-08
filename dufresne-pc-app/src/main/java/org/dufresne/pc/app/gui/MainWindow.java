@@ -51,9 +51,20 @@ public class MainWindow extends JFrame implements ItemListener {
 	public MainWindow(LedgerService ledgerService) {
 		this.ledgerService = ledgerService;
 		customizeAppearance();
+		initActions();
 		this.setJMenuBar(createMenuBar());
 		this.setContentPane(createMainPanel());
 		this.pack();
+	}
+
+	/**
+	 * Initializes the actions so they can be used by the different visual
+	 * components
+	 */
+	private void initActions() {
+		openLedgerAction = new OpenLedgerAction(ledgerService);
+		saveLedgerAction = new SaveLedgerAction(ledgerService);
+
 	}
 
 	private JMenuBar createMenuBar() {
@@ -66,17 +77,35 @@ public class MainWindow extends JFrame implements ItemListener {
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 
 		JMenuItem newLedger = new JMenuItem("New Ledger...");
+		newLedger.setMnemonic(KeyEvent.VK_N);
 		fileMenu.add(newLedger);
 
-		openLedgerAction = new OpenLedgerAction(ledgerService);
 		JMenuItem openLedger = new JMenuItem(openLedgerAction);
 		fileMenu.add(openLedger);
 
-		saveLedgerAction = new SaveLedgerAction(ledgerService);
+		fileMenu.addSeparator();
+
 		JMenuItem saveLedger = new JMenuItem(saveLedgerAction);
 		fileMenu.add(saveLedger);
 
+		fileMenu.addSeparator();
+
+		JMenuItem closeLedger = new JMenuItem("Close Ledger");
+		fileMenu.add(closeLedger);
+
+		// View Menu (V)
+		JMenu viewMenu = new JMenu("View");
+		viewMenu.setMnemonic(KeyEvent.VK_V);
+
+		JMenu chooseViewSubMenu = new JMenu("Show view");
+		for (WorkspaceView workspaceView : WorkspaceView.values()) {
+			JMenuItem workspaceViewItem = new JMenuItem(workspaceView.getViewname());
+			chooseViewSubMenu.add(workspaceViewItem);
+		}
+		viewMenu.add(chooseViewSubMenu);
+
 		menuBar.add(fileMenu);
+		menuBar.add(viewMenu);
 
 		return menuBar;
 	}
@@ -99,8 +128,8 @@ public class MainWindow extends JFrame implements ItemListener {
 
 		// main workspace will contain the other workspaces
 		mainWorkspace = new MainWorkspace();
-		mainWorkspace.addView(WorkspaceView.ACCOUNT_VIEW, new JPanel());
 		mainWorkspace.addView(WorkspaceView.TRANSACTION_VIEW, transactionsWorkspace);
+		mainWorkspace.addView(WorkspaceView.ACCOUNT_VIEW, new JPanel());
 
 		ViewSelector viewSelector = new ViewSelector();
 		viewSelector.addObserver(mainWorkspace);
