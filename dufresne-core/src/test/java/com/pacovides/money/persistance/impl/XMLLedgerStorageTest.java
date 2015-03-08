@@ -65,18 +65,18 @@ public class XMLLedgerStorageTest {
 		File ledgerFile = ResourceFilesUtil.getResourceFile(TEMP_OUTPUT_DIR + "/simple.xml");
 		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
 		Ledger ledger = TestObjectBuilder.buildLedger();
-		Account accountA = ledger.getAccountList().get(0);
 		Account accountB = ledger.getAccountList().get(1);
 		Account accountC = ledger.getAccountList().get(2);
-		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountA, accountB, new BigDecimal(12)));
-		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountA, accountC, new BigDecimal(114)));
+		Account accountD = ledger.getAccountList().get(3);
+		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountD, accountB, new BigDecimal(12)));
+		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountD, accountC, new BigDecimal(114)));
 		xmlLedgerStorage.saveLedger(ledger, ledgerFile.getPath());
 		// Now we check everything was saved correctly
 		String storedInfo = ResourceFilesUtil.getResourceFileAsString(ledgerFile);
 		Assert.assertNotNull(storedInfo);
 		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.DEFAULT_LEDGER_NAME));
 		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.DEFAULT_TRANSACTION_CURRENCY.getCurrencyCode()));
-		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.ACCOUNT_A_NAME));
+		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.ACCOUNT_D_NAME));
 
 	}
 

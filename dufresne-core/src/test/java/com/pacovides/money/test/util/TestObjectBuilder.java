@@ -24,6 +24,7 @@ public class TestObjectBuilder {
 	public static final String ACCOUNT_A_NAME = "accountA";
 	public static final String ACCOUNT_B_NAME = "accountB";
 	public static final String ACCOUNT_C_NAME = "accountC";
+	public static final String ACCOUNT_D_NAME = "accountD";
 
 	public static final Currency DEFAULT_TRANSACTION_CURRENCY = Currency.getInstance("USD");
 	public static final String DEFAULT_LEDGER_NAME = "test ledger";
@@ -42,10 +43,13 @@ public class TestObjectBuilder {
 		ledger.setDescription(DEFAULT_LEDGER_DESCRIPTION);
 		ledger.setTransactionList(Arrays.asList(transactions));
 
-		// We add a few accounts to test
-		ledger.addAccount(buildAccount(ACCOUNT_A_NAME));
-		ledger.addAccount(buildAccount(ACCOUNT_B_NAME));
-		ledger.addAccount(buildAccount(ACCOUNT_C_NAME));
+		// We add a few accounts to test where A is parent of B and C and D
+		// stands on its own.
+		Account parent = buildAccount(ACCOUNT_A_NAME);
+		ledger.addAccount(parent);
+		ledger.addAccount(buildAccount(ACCOUNT_B_NAME, parent));
+		ledger.addAccount(buildAccount(ACCOUNT_C_NAME, parent));
+		ledger.addAccount(buildAccount(ACCOUNT_D_NAME));
 
 		return ledger;
 
@@ -53,6 +57,7 @@ public class TestObjectBuilder {
 
 	/**
 	 * Builds a transaction using amount only. Defaults to USD and current date
+	 * 
 	 * @param amount
 	 * 
 	 * @return
@@ -63,6 +68,7 @@ public class TestObjectBuilder {
 
 	/**
 	 * Builds a transaction using date and amount defaults other values
+	 * 
 	 * @param date
 	 * @param amount
 	 * @param currency
@@ -84,6 +90,10 @@ public class TestObjectBuilder {
 	}
 
 	public static Account buildAccount(String name) {
+		return buildAccount(name, null);
+	}
+
+	public static Account buildAccount(String name, Account parent) {
 		Account account = new Account();
 		account.setName(name);
 		account.setAccountLabels(Collections.singletonList("testAccountLabel"));
@@ -94,6 +104,9 @@ public class TestObjectBuilder {
 		account.setAccountProperties(accountProperties);
 		account.setDefaultCurrency(DEFAULT_TRANSACTION_CURRENCY);
 		account.setType(AccountType.ASSET);
+		if (parent != null) {
+			parent.addSubaccount(account);
+		}
 
 		return account;
 	}
