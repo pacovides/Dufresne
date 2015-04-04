@@ -2,7 +2,6 @@ package com.pacovides.money.service;
 
 import java.util.List;
 
-import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.model.Transaction;
 import com.pacovides.money.model.TransactionFilter;
@@ -33,14 +32,6 @@ public interface LedgerService {
 	 * @param ledgerName
 	 */
 	void createNewLedger(String ledgerName, String ledgerDescription);
-
-	/**
-	 * Clears out the existing ledger and creates a new one with the specified
-	 * name and description and initial set of accounts
-	 * 
-	 * @param ledgerName
-	 */
-	void createNewLedger(String ledgerName, String ledgerDescription, List<Account> initialAccounts);
 
 	/**
 	 * Basic getter, returns the complete active ledger. It is discouraged to

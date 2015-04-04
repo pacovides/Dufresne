@@ -14,13 +14,13 @@ public class AccountTreeNode extends DefaultMutableTreeNode {
 	private Account account;
 
 	/**
-	 * Builds the root node with the specified account and its chilren
+	 * Builds the root node with the specified account and its children
 	 * 
 	 * @param account
 	 */
 	public AccountTreeNode(Account account) {
 		super(account);
-		for (Account subAccount : account.getSubAccounts()) {
+		for (Account subAccount : account.getDirectSubAccounts()) {
 			AccountTreeNode subAccountNode = new AccountTreeNode(subAccount);
 			this.add(subAccountNode);
 		}

@@ -1,11 +1,12 @@
 package com.pacovides.money.test.util;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.pacovides.money.model.Account;
@@ -31,28 +32,36 @@ public class TestObjectBuilder {
 	public static final String DEFAULT_LEDGER_DESCRIPTION = "some ledger description";
 
 	/**
-	 * Builds a ledger object for testing using the transactions that are passed
+	 * Builds a ledger object for testing
 	 * 
 	 * @return
 	 */
-	public static Ledger buildLedger(Transaction... transactions) {
-
+	public static Ledger buildEmptyLedger() {
 		Ledger ledger = new Ledger();
 		ledger.setDateCreated(new Date());
 		ledger.setName(DEFAULT_LEDGER_NAME);
 		ledger.setDescription(DEFAULT_LEDGER_DESCRIPTION);
-		ledger.setTransactionList(Arrays.asList(transactions));
-
-		// We add a few accounts to test where A is parent of B and C and D
-		// stands on its own.
-		Account parent = buildAccount(ACCOUNT_A_NAME);
-		ledger.addAccount(parent);
-		ledger.addAccount(buildAccount(ACCOUNT_B_NAME, parent));
-		ledger.addAccount(buildAccount(ACCOUNT_C_NAME, parent));
-		ledger.addAccount(buildAccount(ACCOUNT_D_NAME));
-
 		return ledger;
 
+	}
+
+	public static List<Account> buildSampleAccounts() {
+		List<Account> sampleAccounts = new ArrayList<Account>();
+		sampleAccounts.add(buildSampleAccount("Bank of Naboo", AccountType.ASSET, null));
+		sampleAccounts.add(buildSampleAccount("Cash in wallet", AccountType.ASSET, null));
+		sampleAccounts.add(buildSampleAccount("Visa Rewards Credit Card", AccountType.LIABILITY, null));
+		sampleAccounts.add(buildSampleAccount("Dirty Business", AccountType.INCOME, null));
+		sampleAccounts.add(buildSampleAccount("Legal Job", AccountType.INCOME, null));
+		Account foodAccount = buildSampleAccount("Food", AccountType.EXPENSE, null);
+		buildSampleAccount("Fancy Restaurants", AccountType.EXPENSE, foodAccount);
+		buildSampleAccount("Junk Food", AccountType.EXPENSE, foodAccount);
+		sampleAccounts.add(foodAccount);
+		Account autoAccount = buildSampleAccount("Automotive", AccountType.EXPENSE, null);
+		buildSampleAccount("Fuel", AccountType.EXPENSE, autoAccount);
+		buildSampleAccount("Car Maintenence", AccountType.EXPENSE, autoAccount);
+		sampleAccounts.add(autoAccount);
+		sampleAccounts.add(buildSampleAccount("Rent", AccountType.EXPENSE, null));
+		return null;
 	}
 
 	/**
@@ -89,13 +98,8 @@ public class TestObjectBuilder {
 		return transaction;
 	}
 
-	public static Account buildAccount(String name) {
-		return buildAccount(name, null);
-	}
-
-	public static Account buildAccount(String name, Account parent) {
-		Account account = new Account();
-		account.setName(name);
+	public static Account buildSampleAccount(String name, AccountType type, Account parent) {
+		Account account = new Account(name, type);
 		account.setAccountLabels(Collections.singletonList("testAccountLabel"));
 		account.setDescription("a testing account");
 		Map<String, String> accountProperties = new HashMap<String, String>();
@@ -103,7 +107,6 @@ public class TestObjectBuilder {
 		accountProperties.put("secretQuestion", "who cares?");
 		account.setAccountProperties(accountProperties);
 		account.setDefaultCurrency(DEFAULT_TRANSACTION_CURRENCY);
-		account.setType(AccountType.ASSET);
 		if (parent != null) {
 			parent.addSubaccount(account);
 		}

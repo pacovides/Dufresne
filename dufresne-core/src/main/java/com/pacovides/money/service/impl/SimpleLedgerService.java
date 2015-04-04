@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.model.Transaction;
 import com.pacovides.money.model.TransactionFilter;
@@ -22,7 +21,6 @@ import com.pacovides.money.service.LedgerService;
  *
  */
 public class SimpleLedgerService implements LedgerService {
-
 
 	private static final Logger logger = LogManager.getLogger(SimpleLedgerService.class);
 
@@ -83,17 +81,10 @@ public class SimpleLedgerService implements LedgerService {
 
 	@Override
 	public void createNewLedger(String ledgerName, String ledgerDescription) {
-		this.createNewLedger(ledgerName, ledgerDescription, null);
-
-	}
-
-	@Override
-	public void createNewLedger(String ledgerName, String ledgerDescription, List<Account> initialAccounts) {
 		logger.info("creating new ledger with name {} ", ledgerName);
 		activeLedger = new Ledger();
 		activeLedger.setName(ledgerName);
 		activeLedger.setDescription(ledgerDescription);
-		activeLedger.setAccountList(initialAccounts);
 		activeLedger.setDateCreated(new Date());
 
 	}

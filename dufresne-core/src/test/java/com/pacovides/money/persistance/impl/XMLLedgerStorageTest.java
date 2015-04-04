@@ -48,7 +48,7 @@ public class XMLLedgerStorageTest {
 	public void testSaveEmptyLedger() throws IOException {
 		File ledgerFile = ResourceFilesUtil.getResourceFile(TEMP_OUTPUT_DIR + "/empty.xml");
 		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
-		xmlLedgerStorage.saveLedger(TestObjectBuilder.buildLedger(), ledgerFile.getPath());
+		xmlLedgerStorage.saveLedger(TestObjectBuilder.buildEmptyLedger(), ledgerFile.getPath());
 		// Now we check everything was saved correctly
 		String storedInfo = ResourceFilesUtil.getResourceFileAsString(ledgerFile);
 		Assert.assertNotNull(storedInfo);
@@ -64,10 +64,11 @@ public class XMLLedgerStorageTest {
 	public void testSaveLedgerWithData() throws IOException {
 		File ledgerFile = ResourceFilesUtil.getResourceFile(TEMP_OUTPUT_DIR + "/simple.xml");
 		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
-		Ledger ledger = TestObjectBuilder.buildLedger();
-		Account accountB = ledger.getAccountList().get(1);
-		Account accountC = ledger.getAccountList().get(2);
-		Account accountD = ledger.getAccountList().get(3);
+		Ledger ledger = TestObjectBuilder.buildEmptyLedger();
+
+		Account accountB = ledger.getBaseAccountsAsList().get(1);
+		Account accountC = ledger.getBaseAccountsAsList().get(2);
+		Account accountD = ledger.getBaseAccountsAsList().get(3);
 		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountD, accountB, new BigDecimal(12)));
 		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountD, accountC, new BigDecimal(114)));
 		xmlLedgerStorage.saveLedger(ledger, ledgerFile.getPath());
@@ -87,7 +88,7 @@ public class XMLLedgerStorageTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testSaveNullFile() {
 		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
-		Ledger ledger = TestObjectBuilder.buildLedger();
+		Ledger ledger = TestObjectBuilder.buildEmptyLedger();
 		xmlLedgerStorage.saveLedger(ledger, null);
 	}
 
@@ -110,8 +111,8 @@ public class XMLLedgerStorageTest {
 
 		// We make some validations relying on the known data
 		Assert.assertNotNull(simpleLedger);
-		Assert.assertNotNull(simpleLedger.getAccountList());
-		Assert.assertEquals(3, simpleLedger.getAccountList().size());
+		Assert.assertNotNull(simpleLedger.getBaseAccountsAsList());
+		Assert.assertEquals(3, simpleLedger.getBaseAccountsAsList().size());
 
 		Assert.assertNotNull(simpleLedger.getTransactionList());
 		Assert.assertEquals(2, simpleLedger.getTransactionList().size());
