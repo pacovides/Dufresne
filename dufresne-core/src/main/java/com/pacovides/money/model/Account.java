@@ -138,6 +138,10 @@ public class Account implements Comparable<Account> {
 	}
 
 	public Account findSubAccount(String name) {
+		if (this.getName().equals(name)) {
+			return this;
+		}
+
 		for (Account subAccount : subAccounts) {
 			if (subAccount.getName().equals(name)) {
 				return subAccount;

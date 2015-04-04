@@ -70,12 +70,9 @@ public class SimpleLedgerService implements LedgerService {
 	@Override
 	public void openLedger(String file) {
 		logger.info("reading ledger from {} ", file);
-		Ledger ledgerRead = ledgerStorage.openLedger(file);
-		if (ledgerRead != null) {
-			activeLedger = ledgerRead;
-		} else {
-			logger.warn("Ledger could not be read.");
-		}
+		Ledger ledgerRead;
+		ledgerRead = ledgerStorage.openLedger(file);
+		activeLedger = ledgerRead;
 
 	}
 

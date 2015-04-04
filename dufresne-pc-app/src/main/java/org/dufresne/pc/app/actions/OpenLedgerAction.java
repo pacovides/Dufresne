@@ -7,9 +7,14 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dufresne.pc.app.gui.LedgerFileObserver;
 
+import com.pacovides.money.exception.DufresneIOException;
+import com.pacovides.money.persistance.impl.XMLLedgerStorage;
 import com.pacovides.money.service.LedgerService;
 
 public class OpenLedgerAction extends AbstractAction {
@@ -18,6 +23,8 @@ public class OpenLedgerAction extends AbstractAction {
 	 * 
 	 */
 	private static final long serialVersionUID = -7328069339815381671L;
+
+	private static final Logger logger = LogManager.getLogger(XMLLedgerStorage.class);
 
 	private LedgerService ledgerService;
 
@@ -40,9 +47,18 @@ public class OpenLedgerAction extends AbstractAction {
 
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
-			ledgerService.openLedger(selectedFile.getPath());
-			for (LedgerFileObserver observer : ledgerFileObservers) {
-				observer.newLedgerFile(ledgerService.getLedger());
+			try {
+				ledgerService.openLedger(selectedFile.getPath());
+			} catch (DufresneIOException ioEx) {
+				JOptionPane.showMessageDialog(null, "Unnable to open file. " + ioEx.getMessage(), "Ooops!",
+						JOptionPane.ERROR_MESSAGE);
+				logger.error("Error opening file", ioEx);
+			}
+			if (ledgerService.getLedger() != null) {
+				for (LedgerFileObserver observer : ledgerFileObservers) {
+					observer.changeActiveLedger(ledgerService.getLedger());
+				}
+				logger.info("ledger opened {}", ledgerService.getLedger().getName());
 			}
 		}
 	}

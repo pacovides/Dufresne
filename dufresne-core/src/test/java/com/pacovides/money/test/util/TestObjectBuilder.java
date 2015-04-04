@@ -22,10 +22,18 @@ import com.pacovides.money.model.Transaction;
  */
 public class TestObjectBuilder {
 
-	public static final String ACCOUNT_A_NAME = "accountA";
-	public static final String ACCOUNT_B_NAME = "accountB";
-	public static final String ACCOUNT_C_NAME = "accountC";
-	public static final String ACCOUNT_D_NAME = "accountD";
+	public static final String SAMPLE_INCOME_1 = "Almost Legal Business";
+	public static final String SAMPLE_INCOME_2 = "Honest Job";
+	public static final String SAMPLE_CC = "Visa Rewards Credit Card";
+	public static final String SAMPLE_ASSET = "Cash in wallet";
+	public static final String SAMPLE_PARENT_EXPENSE = "Food";
+	public static final String SAMPLE_PARENT_EXPENSE_2 = "Automotive";
+	public static final String SAMPLE_EXPENSE_1 = "Fancy Restaurants";
+	public static final String SAMPLE_EXPENSE_2 = "Junk Food";
+	public static final String SAMPLE_EXPENSE_3 = "Fuel";
+	public static final String SAMPLE_EXPENSE_4 = "Car Maintenence";
+	public static final String SAMPLE_EXPENSE_5 = "Rent";
+	public static final String SAMPLE_BANK = "Bank of Naboo";
 
 	public static final Currency DEFAULT_TRANSACTION_CURRENCY = Currency.getInstance("USD");
 	public static final String DEFAULT_LEDGER_NAME = "test ledger";
@@ -47,21 +55,21 @@ public class TestObjectBuilder {
 
 	public static List<Account> buildSampleAccounts() {
 		List<Account> sampleAccounts = new ArrayList<Account>();
-		sampleAccounts.add(buildSampleAccount("Bank of Naboo", AccountType.ASSET, null));
-		sampleAccounts.add(buildSampleAccount("Cash in wallet", AccountType.ASSET, null));
-		sampleAccounts.add(buildSampleAccount("Visa Rewards Credit Card", AccountType.LIABILITY, null));
-		sampleAccounts.add(buildSampleAccount("Dirty Business", AccountType.INCOME, null));
-		sampleAccounts.add(buildSampleAccount("Legal Job", AccountType.INCOME, null));
-		Account foodAccount = buildSampleAccount("Food", AccountType.EXPENSE, null);
-		buildSampleAccount("Fancy Restaurants", AccountType.EXPENSE, foodAccount);
-		buildSampleAccount("Junk Food", AccountType.EXPENSE, foodAccount);
+		sampleAccounts.add(buildSampleAccount(SAMPLE_BANK, AccountType.ASSET, null));
+		sampleAccounts.add(buildSampleAccount(SAMPLE_ASSET, AccountType.ASSET, null));
+		sampleAccounts.add(buildSampleAccount(SAMPLE_CC, AccountType.LIABILITY, null));
+		sampleAccounts.add(buildSampleAccount(SAMPLE_INCOME_1, AccountType.INCOME, null));
+		sampleAccounts.add(buildSampleAccount(SAMPLE_INCOME_2, AccountType.INCOME, null));
+		Account foodAccount = buildSampleAccount(SAMPLE_PARENT_EXPENSE, AccountType.EXPENSE, null);
+		buildSampleAccount(SAMPLE_EXPENSE_1, AccountType.EXPENSE, foodAccount);
+		buildSampleAccount(SAMPLE_EXPENSE_2, AccountType.EXPENSE, foodAccount);
 		sampleAccounts.add(foodAccount);
-		Account autoAccount = buildSampleAccount("Automotive", AccountType.EXPENSE, null);
-		buildSampleAccount("Fuel", AccountType.EXPENSE, autoAccount);
-		buildSampleAccount("Car Maintenence", AccountType.EXPENSE, autoAccount);
+		Account autoAccount = buildSampleAccount(SAMPLE_PARENT_EXPENSE_2, AccountType.EXPENSE, null);
+		buildSampleAccount(SAMPLE_EXPENSE_3, AccountType.EXPENSE, autoAccount);
+		buildSampleAccount(SAMPLE_EXPENSE_4, AccountType.EXPENSE, autoAccount);
 		sampleAccounts.add(autoAccount);
-		sampleAccounts.add(buildSampleAccount("Rent", AccountType.EXPENSE, null));
-		return null;
+		sampleAccounts.add(buildSampleAccount(SAMPLE_EXPENSE_5, AccountType.EXPENSE, null));
+		return sampleAccounts;
 	}
 
 	/**

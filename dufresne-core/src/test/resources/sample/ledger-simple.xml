@@ -1,90 +1,323 @@
 <ledger id="1">
   <name>test ledger</name>
   <description>some ledger description</description>
-  <dateCreated id="2">2015-02-21 06:12:57.569 UTC</dateCreated>
-  <accountList id="3">
-    <account id="4">
-      <type>ASSET</type>
-      <name>accountA</name>
-      <defaultCurrency>USD</defaultCurrency>
-      <description>a testing account</description>
-      <accountProperties id="5">
-        <entry>
-          <string>secretQuestion</string>
-          <string>who cares?</string>
-        </entry>
-        <entry>
-          <string>accountNumber</string>
-          <string>123456</string>
-        </entry>
-      </accountProperties>
-      <accountLabels class="singleton-list" id="6">
-        <string>testAccountLabel</string>
-      </accountLabels>
-    </account>
-    <account id="7">
-      <type>ASSET</type>
-      <name>accountB</name>
-      <defaultCurrency>USD</defaultCurrency>
-      <description>a testing account</description>
-      <accountProperties id="8">
-        <entry>
-          <string>secretQuestion</string>
-          <string>who cares?</string>
-        </entry>
-        <entry>
-          <string>accountNumber</string>
-          <string>123456</string>
-        </entry>
-      </accountProperties>
-      <accountLabels class="singleton-list" id="9">
-        <string>testAccountLabel</string>
-      </accountLabels>
-    </account>
-    <account id="10">
-      <type>ASSET</type>
-      <name>accountC</name>
-      <defaultCurrency>USD</defaultCurrency>
-      <description>a testing account</description>
-      <accountProperties id="11">
-        <entry>
-          <string>secretQuestion</string>
-          <string>who cares?</string>
-        </entry>
-        <entry>
-          <string>accountNumber</string>
-          <string>123456</string>
-        </entry>
-      </accountProperties>
-      <accountLabels class="singleton-list" id="12">
-        <string>testAccountLabel</string>
-      </accountLabels>
-    </account>
-  </accountList>
-  <transactionList id="13">
-    <transaction id="14">
+  <dateCreated id="2">2015-02-21 04:43:18.438 UTC</dateCreated>
+  <baseAccounts id="3">
+    <entry>
+      <com.pacovides.money.model.AccountType>INCOME</com.pacovides.money.model.AccountType>
+      <account id="4">
+        <type>INCOME</type>
+        <name>Income</name>
+        <subAccounts id="5">
+          <account id="6">
+            <type>INCOME</type>
+            <name>Almost Legal Business</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="7">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="8">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="4"/>
+            <subAccounts id="9"/>
+          </account>
+          <account id="10">
+            <type>INCOME</type>
+            <name>Honest Job</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="11">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="12">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="4"/>
+            <subAccounts id="13"/>
+          </account>
+        </subAccounts>
+      </account>
+    </entry>
+    <entry>
+      <com.pacovides.money.model.AccountType>EXPENSE</com.pacovides.money.model.AccountType>
+      <account id="14">
+        <type>EXPENSE</type>
+        <name>Expenses</name>
+        <subAccounts id="15">
+          <account id="16">
+            <type>EXPENSE</type>
+            <name>Automotive</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="17">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="18">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="14"/>
+            <subAccounts id="19">
+              <account id="20">
+                <type>EXPENSE</type>
+                <name>Car Maintenence</name>
+                <defaultCurrency>USD</defaultCurrency>
+                <description>a testing account</description>
+                <accountProperties id="21">
+                  <entry>
+                    <string>secretQuestion</string>
+                    <string>who cares?</string>
+                  </entry>
+                  <entry>
+                    <string>accountNumber</string>
+                    <string>123456</string>
+                  </entry>
+                </accountProperties>
+                <accountLabels class="singleton-list" id="22">
+                  <string>testAccountLabel</string>
+                </accountLabels>
+                <parentAccount reference="16"/>
+                <subAccounts id="23"/>
+              </account>
+              <account id="24">
+                <type>EXPENSE</type>
+                <name>Fuel</name>
+                <defaultCurrency>USD</defaultCurrency>
+                <description>a testing account</description>
+                <accountProperties id="25">
+                  <entry>
+                    <string>secretQuestion</string>
+                    <string>who cares?</string>
+                  </entry>
+                  <entry>
+                    <string>accountNumber</string>
+                    <string>123456</string>
+                  </entry>
+                </accountProperties>
+                <accountLabels class="singleton-list" id="26">
+                  <string>testAccountLabel</string>
+                </accountLabels>
+                <parentAccount reference="16"/>
+                <subAccounts id="27"/>
+              </account>
+            </subAccounts>
+          </account>
+          <account id="28">
+            <type>EXPENSE</type>
+            <name>Food</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="29">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="30">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="14"/>
+            <subAccounts id="31">
+              <account id="32">
+                <type>EXPENSE</type>
+                <name>Fancy Restaurants</name>
+                <defaultCurrency>USD</defaultCurrency>
+                <description>a testing account</description>
+                <accountProperties id="33">
+                  <entry>
+                    <string>secretQuestion</string>
+                    <string>who cares?</string>
+                  </entry>
+                  <entry>
+                    <string>accountNumber</string>
+                    <string>123456</string>
+                  </entry>
+                </accountProperties>
+                <accountLabels class="singleton-list" id="34">
+                  <string>testAccountLabel</string>
+                </accountLabels>
+                <parentAccount reference="28"/>
+                <subAccounts id="35"/>
+              </account>
+              <account id="36">
+                <type>EXPENSE</type>
+                <name>Junk Food</name>
+                <defaultCurrency>USD</defaultCurrency>
+                <description>a testing account</description>
+                <accountProperties id="37">
+                  <entry>
+                    <string>secretQuestion</string>
+                    <string>who cares?</string>
+                  </entry>
+                  <entry>
+                    <string>accountNumber</string>
+                    <string>123456</string>
+                  </entry>
+                </accountProperties>
+                <accountLabels class="singleton-list" id="38">
+                  <string>testAccountLabel</string>
+                </accountLabels>
+                <parentAccount reference="28"/>
+                <subAccounts id="39"/>
+              </account>
+            </subAccounts>
+          </account>
+          <account id="40">
+            <type>EXPENSE</type>
+            <name>Rent</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="41">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="42">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="14"/>
+            <subAccounts id="43"/>
+          </account>
+        </subAccounts>
+      </account>
+    </entry>
+    <entry>
+      <com.pacovides.money.model.AccountType>LIABILITY</com.pacovides.money.model.AccountType>
+      <account id="44">
+        <type>LIABILITY</type>
+        <name>Liabilities</name>
+        <subAccounts id="45">
+          <account id="46">
+            <type>LIABILITY</type>
+            <name>Visa Rewards Credit Card</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="47">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="48">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="44"/>
+            <subAccounts id="49"/>
+          </account>
+        </subAccounts>
+      </account>
+    </entry>
+    <entry>
+      <com.pacovides.money.model.AccountType>ASSET</com.pacovides.money.model.AccountType>
+      <account id="50">
+        <type>ASSET</type>
+        <name>Assets</name>
+        <subAccounts id="51">
+          <account id="52">
+            <type>ASSET</type>
+            <name>Bank of Naboo</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="53">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="54">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="50"/>
+            <subAccounts id="55"/>
+          </account>
+          <account id="56">
+            <type>ASSET</type>
+            <name>Cash in wallet</name>
+            <defaultCurrency>USD</defaultCurrency>
+            <description>a testing account</description>
+            <accountProperties id="57">
+              <entry>
+                <string>secretQuestion</string>
+                <string>who cares?</string>
+              </entry>
+              <entry>
+                <string>accountNumber</string>
+                <string>123456</string>
+              </entry>
+            </accountProperties>
+            <accountLabels class="singleton-list" id="58">
+              <string>testAccountLabel</string>
+            </accountLabels>
+            <parentAccount reference="50"/>
+            <subAccounts id="59"/>
+          </account>
+        </subAccounts>
+      </account>
+    </entry>
+  </baseAccounts>
+  <transactionList id="60">
+    <transaction id="61">
       <description>test transaction</description>
       <notes>sample notes</notes>
-      <date id="15">2015-02-21 06:12:57.569 UTC</date>
-      <amount>12</amount>
-      <currency>USD</currency>
-      <transactionLabels class="singleton-list" id="16">
-        <string>testTransactionLabel</string>
-      </transactionLabels>
-      <accountTo reference="7"/>
-      <accountFrom reference="4"/>
-    </transaction>
-    <transaction id="17">
-      <description>test transaction</description>
-      <notes>sample notes</notes>
-      <date id="18">2015-02-21 06:12:57.569 UTC</date>
+      <date id="62">2015-04-04 04:43:18.438 UTC</date>
       <amount>114</amount>
       <currency>USD</currency>
-      <transactionLabels class="singleton-list" id="19">
+      <transactionLabels class="singleton-list" id="63">
         <string>testTransactionLabel</string>
       </transactionLabels>
-      <accountTo reference="10"/>
-      <accountFrom reference="4"/>
+      <accountTo reference="32"/>
+      <accountFrom reference="52"/>
+    </transaction>
+    <transaction id="64">
+      <description>test transaction</description>
+      <notes>sample notes</notes>
+      <date id="65">2015-04-04 04:43:18.438 UTC</date>
+      <amount>12</amount>
+      <currency>USD</currency>
+      <transactionLabels class="singleton-list" id="66">
+        <string>testTransactionLabel</string>
+      </transactionLabels>
+      <accountTo reference="36"/>
+      <accountFrom reference="52"/>
     </transaction>
   </transactionList>
 </ledger>

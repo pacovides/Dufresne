@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.pacovides.money.model.Account;
+import com.pacovides.money.model.AccountType;
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.test.util.ResourceFilesUtil;
 import com.pacovides.money.test.util.TestObjectBuilder;
@@ -65,19 +66,22 @@ public class XMLLedgerStorageTest {
 		File ledgerFile = ResourceFilesUtil.getResourceFile(TEMP_OUTPUT_DIR + "/simple.xml");
 		XMLLedgerStorage xmlLedgerStorage = new XMLLedgerStorage();
 		Ledger ledger = TestObjectBuilder.buildEmptyLedger();
+		ledger.addAccounts(TestObjectBuilder.buildSampleAccounts());
 
-		Account accountB = ledger.getBaseAccountsAsList().get(1);
-		Account accountC = ledger.getBaseAccountsAsList().get(2);
-		Account accountD = ledger.getBaseAccountsAsList().get(3);
-		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountD, accountB, new BigDecimal(12)));
-		ledger.addTransaction(TestObjectBuilder.buildTransaction(accountD, accountC, new BigDecimal(114)));
+		Account bank = ledger.getAccount(TestObjectBuilder.SAMPLE_BANK, AccountType.ASSET);
+		Account expense1 = ledger.getAccount(TestObjectBuilder.SAMPLE_EXPENSE_1, AccountType.EXPENSE);
+		Account expense2 = ledger.getAccount(TestObjectBuilder.SAMPLE_EXPENSE_2, AccountType.EXPENSE);
+
+		ledger.addTransaction(TestObjectBuilder.buildTransaction(bank, expense1, new BigDecimal(114)));
+		ledger.addTransaction(TestObjectBuilder.buildTransaction(bank, expense2, new BigDecimal(12)));
+
 		xmlLedgerStorage.saveLedger(ledger, ledgerFile.getPath());
 		// Now we check everything was saved correctly
 		String storedInfo = ResourceFilesUtil.getResourceFileAsString(ledgerFile);
 		Assert.assertNotNull(storedInfo);
 		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.DEFAULT_LEDGER_NAME));
 		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.DEFAULT_TRANSACTION_CURRENCY.getCurrencyCode()));
-		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.ACCOUNT_D_NAME));
+		Assert.assertTrue(storedInfo.contains(TestObjectBuilder.SAMPLE_EXPENSE_1));
 
 	}
 
@@ -111,8 +115,8 @@ public class XMLLedgerStorageTest {
 
 		// We make some validations relying on the known data
 		Assert.assertNotNull(simpleLedger);
-		Assert.assertNotNull(simpleLedger.getBaseAccountsAsList());
-		Assert.assertEquals(3, simpleLedger.getBaseAccountsAsList().size());
+		Assert.assertNotNull(simpleLedger.getMainAccountsAsList());
+		Assert.assertEquals(4, simpleLedger.getMainAccountsAsList().size());
 
 		Assert.assertNotNull(simpleLedger.getTransactionList());
 		Assert.assertEquals(2, simpleLedger.getTransactionList().size());

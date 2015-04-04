@@ -1,5 +1,6 @@
 package com.pacovides.money.persistance;
 
+import com.pacovides.money.exception.DufresneIOException;
 import com.pacovides.money.model.Ledger;
 
 public interface LedgerStorage {
@@ -17,6 +18,7 @@ public interface LedgerStorage {
 	 * 
 	 * @param file
 	 * @return
+	 * @throws DufresneIOException
 	 */
 	Ledger openLedger(String file);
 

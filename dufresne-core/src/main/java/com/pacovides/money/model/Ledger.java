@@ -89,12 +89,41 @@ public class Ledger {
 		this.lastModified = lastModified;
 	}
 
-	public Account getBaseAccount(AccountType type) {
+	public Account getMainAccount(AccountType type) {
 		return baseAccounts.get(type);
 	}
 
-	public List<Account> getBaseAccountsAsList() {
+	public List<Account> getMainAccountsAsList() {
 		return new ArrayList<Account>(baseAccounts.values());
+	}
+
+	public Account getAccount(String name, AccountType type) {
+		return baseAccounts.get(type).findSubAccount(name);
+	}
+
+	public void addAccount(Account account) {
+		if (account != null) {
+			baseAccounts.get(account.getType()).addSubaccount(account);
+		}
+	}
+
+	public void addAccount(Account account, Account parent) {
+		if (parent != null) {
+			// We make sure we add to the account in this ledger
+			Account foundParent = getAccount(parent.getName(), parent.getType());
+			if (foundParent == null) {
+				throw new IllegalArgumentException("invalid parent account " + parent.getName());
+			}
+			foundParent.addSubaccount(account);
+		}
+	}
+
+	public void addAccounts(List<Account> accounts) {
+		if (accounts != null) {
+			for (Account account : accounts) {
+				addAccount(account);
+			}
+		}
 	}
 
 	public List<Transaction> getTransactionList() {

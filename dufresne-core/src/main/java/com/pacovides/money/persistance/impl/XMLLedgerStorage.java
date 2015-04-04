@@ -83,7 +83,7 @@ public class XMLLedgerStorage implements LedgerStorage {
 			File file = new File(fileName);
 			String ledgerXml = FileUtils.readFileToString(file);
 			return (Ledger) xstream.fromXML(ledgerXml);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			String message = "error while reading from file " + fileName;
 			logger.error(message, e);
 			throw new DufresneIOException(message, e);
