@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.dufresne.pc.app.gui.model.LedgerFileObserver;
 
 import com.pacovides.money.exception.DufresneIOException;
-import com.pacovides.money.persistance.impl.XMLLedgerStorage;
 import com.pacovides.money.service.LedgerService;
 
 public class OpenLedgerAction extends AbstractAction {
@@ -24,7 +23,7 @@ public class OpenLedgerAction extends AbstractAction {
 	 */
 	private static final long serialVersionUID = -7328069339815381671L;
 
-	private static final Logger logger = LogManager.getLogger(XMLLedgerStorage.class);
+	private static final Logger logger = LogManager.getLogger(OpenLedgerAction.class);
 
 	private LedgerService ledgerService;
 
@@ -56,7 +55,7 @@ public class OpenLedgerAction extends AbstractAction {
 			}
 			if (ledgerService.getLedger() != null) {
 				for (LedgerFileObserver observer : ledgerFileObservers) {
-					observer.changeActiveLedger(ledgerService.getLedger());
+					observer.changedActiveLedger(ledgerService.getLedger());
 				}
 				logger.info("ledger opened {}", ledgerService.getLedger().getName());
 			}

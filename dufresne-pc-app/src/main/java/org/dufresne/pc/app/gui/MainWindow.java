@@ -8,16 +8,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.EtchedBorder;
 
 import org.dufresne.pc.app.actions.OpenLedgerAction;
 import org.dufresne.pc.app.actions.SaveLedgerAction;
@@ -44,6 +40,8 @@ public class MainWindow extends JFrame implements ItemListener {
 
 	// Toolbars
 	private MainToolbar mainToolbar;
+
+	private StatusBar statusBar;
 
 	// Actions
 	private OpenLedgerAction openLedgerAction;
@@ -144,21 +142,14 @@ public class MainWindow extends JFrame implements ItemListener {
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(150);
 
-		JPanel statusBar = createStatusBar();
+		statusBar = new StatusBar();
+		accountsPanel.addObserver(statusBar);
 
 		mainPanel.add(toolbarHolder, BorderLayout.PAGE_START);
 		mainPanel.add(splitPane, BorderLayout.CENTER);
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
 
 		return mainPanel;
-	}
-
-	private JPanel createStatusBar() {
-		JPanel statusBar = new JPanel(new BorderLayout());
-		statusBar.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-		JLabel statusLabel = new JLabel("status...", SwingConstants.LEFT);
-		statusBar.add(statusLabel, BorderLayout.LINE_START);
-		return statusBar;
 	}
 
 	private void customizeAppearance() {

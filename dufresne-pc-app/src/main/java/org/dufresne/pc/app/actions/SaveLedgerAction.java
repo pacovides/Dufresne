@@ -13,9 +13,7 @@ import com.pacovides.money.service.LedgerService;
 
 public class SaveLedgerAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 5280642659863801591L;
 
 	private final Logger logger = LogManager.getLogger(this.getClass());

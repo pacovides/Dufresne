@@ -4,6 +4,6 @@ import com.pacovides.money.model.Ledger;
 
 public interface LedgerFileObserver {
 
-	void changeActiveLedger(Ledger ledger);
+	void changedActiveLedger(Ledger ledger);
 
 }

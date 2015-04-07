@@ -20,6 +20,7 @@ public class AccountTreeNode extends DefaultMutableTreeNode {
 	 */
 	public AccountTreeNode(Account account) {
 		super(account);
+		this.account = account;
 		for (Account subAccount : account.getDirectSubAccounts()) {
 			AccountTreeNode subAccountNode = new AccountTreeNode(subAccount);
 			this.add(subAccountNode);
