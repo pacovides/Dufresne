@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
+import org.dufresne.pc.app.gui.model.ViewSelectionObserver;
+import org.dufresne.pc.app.gui.model.WorkspaceView;
+
 public class ViewSelector extends JComboBox<WorkspaceView> implements ItemListener {
 
 	/**

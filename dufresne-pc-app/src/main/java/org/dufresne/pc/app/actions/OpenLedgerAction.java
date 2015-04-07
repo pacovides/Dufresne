@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dufresne.pc.app.gui.LedgerFileObserver;
+import org.dufresne.pc.app.gui.model.LedgerFileObserver;
 
 import com.pacovides.money.exception.DufresneIOException;
 import com.pacovides.money.persistance.impl.XMLLedgerStorage;

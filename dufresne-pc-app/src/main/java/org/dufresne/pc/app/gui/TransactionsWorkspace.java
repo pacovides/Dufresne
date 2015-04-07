@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.dufresne.pc.app.gui.model.TransactionsTableModel;
+
 import com.pacovides.money.model.Transaction;
 
 public class TransactionsWorkspace extends JPanel {

@@ -1,4 +1,4 @@
-package org.dufresne.pc.app.gui;
+package org.dufresne.pc.app.gui.model;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

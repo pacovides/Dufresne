@@ -11,6 +11,9 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.dufresne.pc.app.gui.model.AccountTreeNode;
+import org.dufresne.pc.app.gui.model.LedgerFileObserver;
+
 import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Ledger;
 

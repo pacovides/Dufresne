@@ -21,6 +21,7 @@ import javax.swing.border.EtchedBorder;
 
 import org.dufresne.pc.app.actions.OpenLedgerAction;
 import org.dufresne.pc.app.actions.SaveLedgerAction;
+import org.dufresne.pc.app.gui.model.WorkspaceView;
 import org.dufresne.pc.app.util.ImageStore;
 
 import com.pacovides.money.service.LedgerService;

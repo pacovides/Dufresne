@@ -4,6 +4,9 @@ import java.awt.CardLayout;
 
 import javax.swing.JPanel;
 
+import org.dufresne.pc.app.gui.model.ViewSelectionObserver;
+import org.dufresne.pc.app.gui.model.WorkspaceView;
+
 public class MainWorkspace extends JPanel implements ViewSelectionObserver {
 
 	/**
