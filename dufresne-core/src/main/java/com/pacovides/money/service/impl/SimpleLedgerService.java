@@ -12,9 +12,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.model.Transaction;
-import com.pacovides.money.model.TransactionFilter;
 import com.pacovides.money.persistance.LedgerStorage;
 import com.pacovides.money.service.LedgerService;
+import com.pacovides.money.service.TransactionFilter;
 
 /**
  * @author Francisco

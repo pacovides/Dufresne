@@ -1,20 +1,21 @@
 package org.dufresne.pc.app.gui;
 
 import java.awt.BorderLayout;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.dufresne.pc.app.gui.model.AccountSelectionObserver;
 import org.dufresne.pc.app.gui.model.TransactionsTableModel;
 
+import com.pacovides.money.model.Account;
 import com.pacovides.money.model.Transaction;
+import com.pacovides.money.service.LedgerService;
+import com.pacovides.money.service.impl.AccountBasedFilter;
 
-public class TransactionsWorkspace extends JPanel {
+public class TransactionsWorkspace extends JPanel implements AccountSelectionObserver {
 
 	/**
 	 * 
@@ -23,29 +24,34 @@ public class TransactionsWorkspace extends JPanel {
 
 	private JTable transactionsTable;
 
-	public TransactionsWorkspace() {
+	private LedgerService ledgerService;
+
+	public TransactionsWorkspace(LedgerService ledgerService) {
 		super(new BorderLayout());
-		createTransactionsTable();
+		this.ledgerService = ledgerService;
+		transactionsTable = new JTable(null);
 		this.add(new JScrollPane(transactionsTable), BorderLayout.CENTER);
 	}
 
-	private void createTransactionsTable() {
-		List<Transaction> sampleTransactions = new ArrayList<Transaction>();
-		Transaction sample1 = new Transaction();
-		sample1.setDate(new Date());
-		sample1.setDescription("buy some stuff");
-		sample1.setAmount(new BigDecimal(10));
-		sampleTransactions.add(sample1);
+	private void setTransactions(List<Transaction> transactions) {
+		if (transactions == null) {
+			transactionsTable.setModel(null);
+		} else {
+			TransactionsTableModel tableModel = new TransactionsTableModel(transactions);
+			transactionsTable.setModel(tableModel);
+		}
 
-		Transaction sample2 = new Transaction();
-		sample2.setDate(new Date());
-		sample2.setDescription("buy more stuff");
-		sample2.setAmount(new BigDecimal(25.20));
-		sampleTransactions.add(sample2);
+		transactionsTable.repaint();
+	}
 
-		TransactionsTableModel tableModel = new TransactionsTableModel(sampleTransactions);
-
-		transactionsTable = new JTable(tableModel);
+	@Override
+	public void accountSelected(Account account) {
+		if (account != null) {
+			AccountBasedFilter filter = new AccountBasedFilter(account);
+			filter.setRecursive(true);// TODO do this based on setting.
+			List<Transaction> filteredTransactions = ledgerService.getFilteredTransactions(filter);
+			setTransactions(filteredTransactions);
+		}
 
 	}
 

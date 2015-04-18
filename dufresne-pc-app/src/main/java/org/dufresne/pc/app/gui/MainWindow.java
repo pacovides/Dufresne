@@ -123,7 +123,8 @@ public class MainWindow extends JFrame implements ItemListener {
 		openLedgerAction.addObserver(accountsPanel);
 
 		// Init workspace visual components
-		transactionsWorkspace = new TransactionsWorkspace();
+		transactionsWorkspace = new TransactionsWorkspace(ledgerService);
+		accountsPanel.addObserver(transactionsWorkspace);
 
 		// main workspace will contain the other workspaces
 		mainWorkspace = new MainWorkspace();

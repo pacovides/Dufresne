@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.pacovides.money.model.Ledger;
 import com.pacovides.money.model.Transaction;
-import com.pacovides.money.model.TransactionFilter;
 
 public interface LedgerService {
 
