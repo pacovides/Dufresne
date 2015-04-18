@@ -1,6 +1,8 @@
 package org.dufresne.pc.app.gui.model;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
@@ -22,6 +24,13 @@ public class TransactionsTableModel extends AbstractTableModel {
 	// Active transactions can be empty but they should not be null at any time
 	private List<Transaction> activeTransactions = new ArrayList<Transaction>();
 
+	private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+
+	/**
+	 * Formats a currency using the system locale
+	 */
+	private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+
 	public TransactionsTableModel(List<Transaction> activeTransactions) {
 		super();
 		if (activeTransactions != null) {
@@ -39,8 +48,8 @@ public class TransactionsTableModel extends AbstractTableModel {
 		columnNames.add("Date");
 		columnNames.add("Description");
 		columnNames.add("Amount");
-		columnNames.add("to Account");
 		columnNames.add("from Account");
+		columnNames.add("to Account");
 	}
 
 	@Override
@@ -70,24 +79,22 @@ public class TransactionsTableModel extends AbstractTableModel {
 			return transaction.getDescription();
 		case 2: // Amount
 			return formatAmount(transaction.getAmount(), transaction.getCurrency());
-		case 3:// Account to
-			return "crap";
-		case 4:// Account from
-			return "trees";
+		case 3:// Account from
+			return transaction.getAccountFrom().getName();
+		case 4:// Account to
+			return transaction.getAccountTo().getName();
 		default:
-			return "wtf!?";
+			return "???";
 		}
 
 	}
 
 	private Object formatAmount(BigDecimal amount, Currency currency) {
-		// TODO Auto-generated method stub
-		return amount.toString();
+		return currencyFormatter.format(amount.doubleValue());
 	}
 
 	private Object formatDate(Date date) {
-		// TODO Auto-generated method stub
-		return date.toString();
+		return dateFormatter.format(date);
 	}
 
 	public List<Transaction> getActiveTransactions() {

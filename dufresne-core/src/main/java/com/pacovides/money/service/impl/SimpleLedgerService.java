@@ -98,8 +98,8 @@ public class SimpleLedgerService implements LedgerService {
 			return new ArrayList<Transaction>();
 		}
 
-		// TODO actually filter
-		return activeLedger.getTransactionList();
+		return filter.filter(activeLedger.getTransactionList());
+
 	}
 
 }
