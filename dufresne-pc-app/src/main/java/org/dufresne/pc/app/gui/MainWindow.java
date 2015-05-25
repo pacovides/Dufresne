@@ -14,7 +14,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.dufresne.pc.app.actions.NewLedgerAction;
 import org.dufresne.pc.app.actions.OpenLedgerAction;
 import org.dufresne.pc.app.actions.SaveLedgerAction;
 import org.dufresne.pc.app.gui.model.WorkspaceView;
@@ -24,10 +29,14 @@ import com.pacovides.money.service.LedgerService;
 
 public class MainWindow extends JFrame implements ItemListener {
 
+	private static final String LOOK_AND_FEEL_NAME = "Nimbus";
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1680144728615370750L;
+
+	private static final Logger logger = LogManager.getLogger(MainWindow.class);
 
 	private LedgerService ledgerService;
 
@@ -44,8 +53,10 @@ public class MainWindow extends JFrame implements ItemListener {
 	private StatusBar statusBar;
 
 	// Actions
+	private NewLedgerAction newLedgerAction;
 	private OpenLedgerAction openLedgerAction;
 	private SaveLedgerAction saveLedgerAction;
+
 
 	public MainWindow(LedgerService ledgerService) {
 		this.ledgerService = ledgerService;
@@ -63,6 +74,7 @@ public class MainWindow extends JFrame implements ItemListener {
 	private void initActions() {
 		openLedgerAction = new OpenLedgerAction(ledgerService);
 		saveLedgerAction = new SaveLedgerAction(ledgerService);
+		newLedgerAction = new NewLedgerAction(ledgerService);
 
 	}
 
@@ -75,7 +87,7 @@ public class MainWindow extends JFrame implements ItemListener {
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 
-		JMenuItem newLedger = new JMenuItem("New Ledger...");
+		JMenuItem newLedger = new JMenuItem(newLedgerAction);
 		newLedger.setMnemonic(KeyEvent.VK_N);
 		fileMenu.add(newLedger);
 
@@ -154,6 +166,21 @@ public class MainWindow extends JFrame implements ItemListener {
 	}
 
 	private void customizeAppearance() {
+
+		// Set the look and feel
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if (LOOK_AND_FEEL_NAME.equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If Nimbus is not available, you can set the GUI to another look
+			// and feel.
+			logger.warn(LOOK_AND_FEEL_NAME + " look and feel could nor be set. Using default.");
+		}
+
 		int width = 600;
 		int height = 400;
 
