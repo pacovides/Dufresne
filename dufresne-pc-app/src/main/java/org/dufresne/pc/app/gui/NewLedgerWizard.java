@@ -54,7 +54,7 @@ public class NewLedgerWizard extends JFrame {
 		SimpleFormPanel basicLedgerInfoPanel = new SimpleFormPanel();
 		basicLedgerInfoPanel.addField(FormFieldType.TEXT, "Ledger Name:", "");
 		basicLedgerInfoPanel.addField(FormFieldType.LARGE_TEXT, "Description:", "");
-		basicLedgerInfoPanel.addField(FormFieldType.FILE, "File Location:", "");
+		basicLedgerInfoPanel.addField(FormFieldType.DIR, "File Location:", System.getProperty("user.home"));
 
 		wizardPanel.add(basicLedgerInfoPanel, BorderLayout.CENTER);
 

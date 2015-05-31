@@ -35,4 +35,9 @@ public class TextFormField extends FormField {
 		return textField;
 	}
 
+	@Override
+	public String getValue() {
+		return textField.getText();
+	}
+
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 /**
@@ -19,7 +20,7 @@ public class SimpleFormPanel extends JPanel {
 
 	private static final long serialVersionUID = 398940527309454953L;
 
-	private Map<String, String> nameValueMap = new HashMap<String, String>();
+	private Map<String, FormField> fieldMap = new HashMap<String, FormField>();
 
 	public SimpleFormPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -37,7 +38,10 @@ public class SimpleFormPanel extends JPanel {
 			formField = new TextAreaFormField(name);
 			break;
 		case FILE:
-			formField = new FileSelectionFormField(name);
+			formField = new FileSelectionFormField(name, JFileChooser.FILES_ONLY);
+			break;
+		case DIR:
+			formField = new FileSelectionFormField(name, JFileChooser.DIRECTORIES_ONLY);
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported type " + type);
@@ -47,15 +51,28 @@ public class SimpleFormPanel extends JPanel {
 		formField.setValue(initialValue);
 		formField.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		nameValueMap.put(name, initialValue);
+		fieldMap.put(name, formField);
 
 		// Adds field below label
 		this.add(formField);
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 	}
 
-	public String getFieldValue(String name) {
-		return nameValueMap.get(name);
+	public String getFieldValue(String fieldName) {
+		FormField formField = fieldMap.get(fieldName);
+		if(formField!=null){
+			return formField.getValue();
+		}
+		
+		return null;
+	}
+
+	public void setFieldValue(String fieldName, String fieldValue) {
+		FormField formField = fieldMap.get(fieldName);
+		if (formField != null) {
+			formField.setValue(fieldValue);
+		}
+
 	}
 
 }

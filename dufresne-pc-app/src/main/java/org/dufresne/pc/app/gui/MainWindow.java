@@ -59,6 +59,7 @@ public class MainWindow extends JFrame implements ItemListener {
 
 
 	public MainWindow(LedgerService ledgerService) {
+		logger.info("Initializing main window");
 		this.ledgerService = ledgerService;
 		customizeAppearance();
 		initActions();

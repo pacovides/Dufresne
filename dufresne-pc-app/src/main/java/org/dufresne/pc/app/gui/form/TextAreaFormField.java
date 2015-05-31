@@ -42,4 +42,9 @@ public class TextAreaFormField extends FormField {
 		return scrollPane;
 	}
 
+	@Override
+	public String getValue() {
+		return textAreaField.getText();
+	}
+
 }

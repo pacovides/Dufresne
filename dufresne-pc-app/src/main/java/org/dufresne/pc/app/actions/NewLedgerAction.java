@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dufresne.pc.app.gui.NewLedgerWizard;
 import org.dufresne.pc.app.gui.model.LedgerFileObserver;
+import org.dufresne.pc.app.gui.wizard.WizardWindow;
 
 import com.pacovides.money.exception.DufresneIOException;
 import com.pacovides.money.service.LedgerService;
@@ -42,7 +42,8 @@ public class NewLedgerAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// We create a new wizard upon each action.
-		NewLedgerWizard wizard = new NewLedgerWizard(ledgerService);
+		// NewLedgerWizard wizard = new NewLedgerWizard(ledgerService);
+		WizardWindow wizard = new WizardWindow("New Ledger");
 		wizard.setVisible(true);
 	}
 

@@ -12,6 +12,8 @@ public abstract class FormField extends JPanel {
 
 	public abstract void setValue(String textValue);
 
+	public abstract String getValue();
+
 	protected JLabel label = new JLabel();
 
 	/**
