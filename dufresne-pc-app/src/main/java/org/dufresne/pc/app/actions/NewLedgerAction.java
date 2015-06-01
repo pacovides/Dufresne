@@ -11,13 +11,17 @@ import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dufresne.pc.app.gui.form.FormFieldType;
+import org.dufresne.pc.app.gui.form.SimpleFormPanel;
 import org.dufresne.pc.app.gui.model.LedgerFileObserver;
+import org.dufresne.pc.app.gui.wizard.WizardObserver;
+import org.dufresne.pc.app.gui.wizard.WizardStep;
 import org.dufresne.pc.app.gui.wizard.WizardWindow;
 
 import com.pacovides.money.exception.DufresneIOException;
 import com.pacovides.money.service.LedgerService;
 
-public class NewLedgerAction extends AbstractAction {
+public class NewLedgerAction extends AbstractAction implements WizardObserver {
 
 	/**
 	 * 
@@ -29,6 +33,8 @@ public class NewLedgerAction extends AbstractAction {
 	private LedgerService ledgerService;
 
 	private final JFileChooser fileChooser = new JFileChooser();
+
+	private SimpleFormPanel basicLedgerInfoPanel;
 
 	private List<LedgerFileObserver> ledgerFileObservers = new ArrayList<LedgerFileObserver>();
 
@@ -43,8 +49,25 @@ public class NewLedgerAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		// We create a new wizard upon each action.
 		// NewLedgerWizard wizard = new NewLedgerWizard(ledgerService);
-		WizardWindow wizard = new WizardWindow("New Ledger");
+		WizardWindow wizard = buildLedgerWizard();
 		wizard.setVisible(true);
+	}
+
+	public WizardWindow buildLedgerWizard() {
+		WizardWindow wizard = new WizardWindow("New Ledger");
+
+		// We want to observe wizard actions
+		wizard.addObserver(this);
+
+		// We create the first step to grab basic info
+		basicLedgerInfoPanel = new SimpleFormPanel();
+		basicLedgerInfoPanel.addField(FormFieldType.TEXT, "Ledger Name:", "");
+		basicLedgerInfoPanel.addField(FormFieldType.LARGE_TEXT, "Description:", "");
+		basicLedgerInfoPanel.addField(FormFieldType.DIR, "File Location:", System.getProperty("user.home"));
+		WizardStep step1 = new WizardStep(basicLedgerInfoPanel, "LedgerBasicInfo");
+		wizard.addStep(step1);
+
+		return wizard;
 	}
 
 	private void saveLedger() {
@@ -71,6 +94,30 @@ public class NewLedgerAction extends AbstractAction {
 
 	public void addObserver(LedgerFileObserver observer) {
 		ledgerFileObservers.add(observer);
+	}
+
+	@Override
+	public void wizardNext() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void wizardBack() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void wizardCancel() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void wizardFinished() {
+		logger.debug("New ledger ready");
+
 	}
 
 }

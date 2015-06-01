@@ -6,9 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,13 +18,11 @@ import javax.swing.border.EmptyBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class WizardPanel extends JPanel implements ActionListener {
+public class WizardPanel extends JPanel implements ActionListener, WizardComponent {
 
 	private static final long serialVersionUID = -8150781320430206980L;
 
 	private static final Logger logger = LogManager.getLogger(WizardPanel.class);
-
-	private static final String BACK_CMD = "BACK";
 
 	private JPanel cardPanel;
 	private CardLayout cardLayout;
@@ -36,23 +32,23 @@ public class WizardPanel extends JPanel implements ActionListener {
 	private JButton finishButton;
 	private JButton cancelButton;
 
-	// This list contains the panels for each step of the wizard.
-	private List<JPanel> stepPanels;
-
-	// This map contains the index of the panels so we can lookup by name
-	private Map<String, Integer> stepIndexMap;
+	// Contains all the steps in the wizard
+	private List<WizardStep> wizardSteps;
 
 	// Marks the current step of the process
 	private int currentStepIndex;
+
+	private List<WizardObserver> observers = new ArrayList<WizardObserver>();
 
 	public WizardPanel() {
 		initMainComponents();
 		this.setLayout(new BorderLayout());
 		this.add(cardPanel, BorderLayout.CENTER);
 		this.add(createButtonPanel(), BorderLayout.PAGE_END);
+		updateButtons();
 	}
 
-	public JPanel createButtonPanel() {
+	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel();
 		Box buttonBox = new Box(BoxLayout.X_AXIS);
 
@@ -71,14 +67,13 @@ public class WizardPanel extends JPanel implements ActionListener {
 		return buttonPanel;
 	}
 
-	public void initMainComponents() {
+	private void initMainComponents() {
 
 		// We use a list to store the step the panels so we can be mindful about
 		// insertion order. We keep an index so we can also refer by name.
 		// We could achieve similar results with just the map, but we would be
 		// bound to insertion order implementations.
-		stepPanels = new ArrayList<JPanel>();
-		stepIndexMap = new HashMap<String, Integer>();
+		wizardSteps = new ArrayList<WizardStep>();
 		currentStepIndex = 0;
 
 		// The cardPanel will be our main placeholder for the wizard steps
@@ -103,21 +98,77 @@ public class WizardPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == backButton) {
-			logger.debug("back");
+			goBack();
+			for (WizardObserver observer : observers) {
+				observer.wizardBack();
+			}
+		} else if (e.getSource() == nextButton) {
+			if (wizardSteps.get(currentStepIndex).isAutoFwd()) {
+				goNext();
+			}
+			for (WizardObserver observer : observers) {
+				observer.wizardNext();
+			}
+		} else if (e.getSource() == finishButton) {
+			for (WizardObserver observer : observers) {
+				observer.wizardFinished();
+			}
+		} else if (e.getSource() == cancelButton) {
+			for (WizardObserver observer : observers) {
+				observer.wizardCancel();
+			}
 		}
 
 	}
 
-	public void goNext() {
+	public void addStep(WizardStep step) {
+		wizardSteps.add(step);
+		cardPanel.add(step.getDisplayPanel(), step.getName());
+	}
 
+	public void addObserver(WizardObserver observer) {
+		observers.add(observer);
+	}
+
+	/**
+	 * Update the buttons so only legal actions can take place
+	 */
+	private void updateButtons() {
+		if (currentStepIndex == 0) {
+			backButton.setEnabled(false);
+		} else {
+			backButton.setEnabled(true);
+		}
+
+		if (currentStepIndex >= (wizardSteps.size() - 1)) {
+			nextButton.setEnabled(false);
+			finishButton.setEnabled(true);
+		} else {
+			nextButton.setEnabled(true);
+			finishButton.setEnabled(false);
+		}
+
+		repaint();
+	}
+
+	public void goNext() {
+		if ((currentStepIndex + 1) < wizardSteps.size()) {
+			currentStepIndex++;
+			cardLayout.show(cardPanel, wizardSteps.get(currentStepIndex).getName());
+			updateButtons();
+		} else {
+			logger.warn("Reached the end of the wizard!");
+		}
 	}
 
 	public void goBack() {
-
-	}
-
-	public int getCurrentStepIndex() {
-		return currentStepIndex;
+		if ((currentStepIndex + 1) < wizardSteps.size()) {
+			currentStepIndex++;
+			cardLayout.show(cardPanel, wizardSteps.get(currentStepIndex).getName());
+			updateButtons();
+		} else {
+			logger.warn("Reached the end of the wizard!");
+		}
 	}
 
 }
