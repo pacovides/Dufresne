@@ -24,7 +24,7 @@ public abstract class FormField extends JPanel {
 	 */
 	protected void initLayout(String fieldName) {
 		this.setLayout(new BorderLayout());
-		label.setText(fieldName);
+		label.setText(fieldName + ":");
 		// Used for assistive technologies
 		label.setLabelFor(getActiveFieldContainer());
 		this.add(label, BorderLayout.PAGE_START);

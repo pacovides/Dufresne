@@ -31,14 +31,22 @@ public class FileSelectionFormField extends FormField implements ActionListener 
 
 	private final JFileChooser fileChooser = new JFileChooser();
 
-	public FileSelectionFormField(String fieldName, int fileSelectionMode) {
+	public enum FileSelectionType {
+		FILE, DIRECTORY;
+	}
+
+	public FileSelectionFormField(String fieldName, FileSelectionType fileSelectionType) {
 		super();
 		containerPanel.setLayout(new BorderLayout());
 		containerPanel.add(filePath, BorderLayout.CENTER);
 		containerPanel.add(browseBtn, BorderLayout.LINE_END);
 		browseBtn.addActionListener(this);
-		fileChooser.setFileSelectionMode(fileSelectionMode);
-		filePath.setText("WTF??");
+		if (fileSelectionType == FileSelectionType.DIRECTORY) {
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		} else {
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		}
+
 		initLayout(fieldName);
 		// file path is expected to fit in one line
 		this.setMaximumSize(new Dimension(Integer.MAX_VALUE, this.getPreferredSize().height));

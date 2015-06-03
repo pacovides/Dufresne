@@ -7,8 +7,9 @@ import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+
+import org.dufresne.pc.app.gui.form.FileSelectionFormField.FileSelectionType;
 
 /**
  * A convenient generic panel to hold labels and field of string data.
@@ -38,10 +39,10 @@ public class SimpleFormPanel extends JPanel {
 			formField = new TextAreaFormField(name);
 			break;
 		case FILE:
-			formField = new FileSelectionFormField(name, JFileChooser.FILES_ONLY);
+			formField = new FileSelectionFormField(name, FileSelectionType.FILE);
 			break;
 		case DIR:
-			formField = new FileSelectionFormField(name, JFileChooser.DIRECTORIES_ONLY);
+			formField = new FileSelectionFormField(name, FileSelectionType.DIRECTORY);
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported type " + type);
